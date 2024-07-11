@@ -59,7 +59,6 @@ class ViewImplementingSubjectPage extends StatelessWidget {
   }
 }
 
-
 class ContainerManager extends StatelessWidget {
   final List<Widget> children;
 
@@ -134,7 +133,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
   }
 
   Future<void> _fetchSubjects() async {
-    const url = 'http://localhost/poc_head/subjects/get_subjects.php';
+    const url = 'http://10.0.2.2/poc_head/subjects/get_subjects.php';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -161,111 +160,111 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
     return _isLoading
         ? const Center(child: CircularProgressIndicator())
         : Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: _subjects.length,
-        itemBuilder: (context, index) {
-          final subject = _subjects[index];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ExpansionTile(
-                title: Text(
-                  subject.subjectName,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins-SemiBold',
-                  ),
-                ),
-                leading: Image.asset(
-                  'icons/down-button.png',
-                  width: 30,
-                  height: 30,
-                  color: const Color(0xFF0187F1),
-                ),
-                controlAffinity: ListTileControlAffinity.leading,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              'Course Code: ',
-                              style: TextStyle(
-                                fontFamily: 'Poppins-SemiBold',
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              subject.subjectCode,
-                              style: const TextStyle(
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _subjects.length,
+              itemBuilder: (context, index) {
+                final subject = _subjects[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExpansionTile(
+                      title: Text(
+                        subject.subjectName,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins-SemiBold',
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            const Text(
-                              'Year Level: ',
-                              style: TextStyle(
-                                fontFamily: 'Poppins-SemiBold',
-                                fontSize: 10,
+                      ),
+                      leading: Image.asset(
+                        'icons/down-button.png',
+                        width: 30,
+                        height: 30,
+                        color: const Color(0xFF0187F1),
+                      ),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Course Code: ',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins-SemiBold',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Text(
+                                    subject.subjectCode,
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Text(
-                              subject.yearLevel.toString(),
-                              style: const TextStyle(
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Year Level: ',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins-SemiBold',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Text(
+                                    subject.yearLevel.toString(),
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Program: ',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins-SemiBold',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Text(
+                                    subject.program,
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            const Text(
-                              'Program: ',
-                              style: TextStyle(
-                                fontFamily: 'Poppins-SemiBold',
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              subject.program,
-                              style: const TextStyle(
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10, bottom: 10.0),
+                          child: Divider(
+                            thickness: 1.0,
+                            color: Colors.black,
+                            indent: 40.0,
+                            endIndent: 40.0,
+                          ),
                         ),
-                        const SizedBox(height: 8),
                       ],
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10.0),
-                    child: Divider(
-                      thickness: 1.0,
-                      color: Colors.black,
-                      indent: 40.0,
-                      endIndent: 40.0,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 }

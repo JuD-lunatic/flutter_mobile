@@ -26,7 +26,7 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
     final int yearLevel = int.tryParse(_yearLevelController.text) ?? 0;
     final String program = _programController.text;
 
-    const url = 'http://localhost/college_poc/add_student.php';
+    const url = 'http://10.0.2.2/college_poc/add_student.php';
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -50,7 +50,8 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
       } else {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add student. Error: ${response.body}')),
+          SnackBar(
+              content: Text('Failed to add student. Error: ${response.body}')),
         );
       }
     } catch (e) {
@@ -74,35 +75,37 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Student Name'),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: _nameController,
+                    decoration:
+                        const InputDecoration(labelText: 'Student Name'),
+                  ),
+                  TextFormField(
+                    controller: _numberController,
+                    decoration:
+                        const InputDecoration(labelText: 'Student Number'),
+                  ),
+                  TextFormField(
+                    controller: _yearLevelController,
+                    decoration: const InputDecoration(labelText: 'Year Level'),
+                    keyboardType: TextInputType.number,
+                  ),
+                  TextFormField(
+                    controller: _programController,
+                    decoration: const InputDecoration(labelText: 'Program'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _addStudent,
+                    child: const Text('Add Student'),
+                  ),
+                ],
+              ),
             ),
-            TextFormField(
-              controller: _numberController,
-              decoration: const InputDecoration(labelText: 'Student Number'),
-            ),
-            TextFormField(
-              controller: _yearLevelController,
-              decoration: const InputDecoration(labelText: 'Year Level'),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: _programController,
-              decoration: const InputDecoration(labelText: 'Program'),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _addStudent,
-              child: const Text('Add Student'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

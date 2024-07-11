@@ -10,7 +10,8 @@ import 'package:main/student/view_evaluation.dart';
 class ViewSubmitGradedScreen extends StatefulWidget {
   final Map<String, dynamic> submission;
 
-  const ViewSubmitGradedScreen({Key? key, required this.submission}) : super(key: key);
+  const ViewSubmitGradedScreen({Key? key, required this.submission})
+      : super(key: key);
 
   @override
   _ViewSubmitGradedScreenState createState() => _ViewSubmitGradedScreenState();
@@ -34,6 +35,7 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
       fileName = 'No file uploaded';
     }
   }
+
   void _downloadFile(String? fileData) async {
     // Check if file data is available
     if (fileData != null) {
@@ -41,7 +43,6 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
         Uint8List bytes = base64Decode(fileData);
 
         String fileName = 'downloaded_file';
-
 
         print('Downloading file: $fileName');
 
@@ -58,7 +59,6 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
       print('No file available for download');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +155,8 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(11, 0, 0, 16),
                         child: Text(
-                          widget.submission['description'] ?? 'No description...',
+                          widget.submission['description'] ??
+                              'No description...',
                           textAlign: TextAlign.justify,
                           style: GoogleFonts.getFont(
                             'Poppins',
@@ -203,24 +204,25 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
                     color: const Color(0xFF383838),
                   ),
                 ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const EvaluationPage()),
-            );
-          },
-          child: Text(
-            'View Score',
-            style: GoogleFonts.getFont(
-              'Poppins',
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              letterSpacing: -0.3,
-              color: const Color(0xFF000000),
-            ),
-          ),
-        ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EvaluationPage()),
+                    );
+                  },
+                  child: Text(
+                    'View Score',
+                    style: GoogleFonts.getFont(
+                      'Poppins',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      letterSpacing: -0.3,
+                      color: const Color(0xFF000000),
+                    ),
+                  ),
+                ),
               ],
             ),
             Container(
@@ -240,7 +242,8 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
                     onPressed: () async {
                       try {
                         var response = await http.post(
-                          Uri.parse('http://localhost/college_poc/delete_submission.php'),
+                          Uri.parse(
+                              'http://10.0.2.2/college_poc/delete_submission.php'),
                           body: {
                             'task_id': widget.submission['task_id'].toString(),
                           },
@@ -256,7 +259,8 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xff0187f1), width: 2),
+                      side:
+                          const BorderSide(color: Color(0xff0187f1), width: 2),
                       backgroundColor: const Color(0xFFFFFFFF),
                       disabledBackgroundColor: const Color(0xFFFFFFFF),
                       foregroundColor: const Color(0xff0187f1),
@@ -279,4 +283,3 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
     );
   }
 }
-

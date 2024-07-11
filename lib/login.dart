@@ -53,7 +53,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost/poc_head/login.php'),  // Change this line
+        Uri.parse('http://10.0.2.2/poc_head/login.php'), // Change this line
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -71,7 +71,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
             Navigator.pushNamed(context, '/student');
           } else if (role == 'college_poc') {
             Navigator.pushNamed(context, '/college_poc');
-          }else if (role == 'poc_head') {
+          } else if (role == 'poc_head') {
             Navigator.pushNamed(context, '/poc_head');
           } else if (role == 'eie') {
             Navigator.pushNamed(context, '/eie');
@@ -304,7 +304,8 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF0187F1),
-                            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),

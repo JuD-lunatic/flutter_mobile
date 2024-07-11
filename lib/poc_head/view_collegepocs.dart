@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-
 class ViewCollegePocsPage extends StatelessWidget {
   const ViewCollegePocsPage({super.key});
 
@@ -58,7 +57,6 @@ class ViewCollegePocsPage extends StatelessWidget {
   }
 }
 
-
 class ContainerManager extends StatelessWidget {
   final List<Widget> children;
 
@@ -100,7 +98,8 @@ class _CollegePOCListState extends State<CollegePOCList> {
   List<dynamic> pocData = [];
 
   Future<void> fetchPOCs() async {
-    final response = await http.get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
+    final response = await http
+        .get(Uri.parse('http://10.0.2.2/college_poc/display_contacts.php'));
 
     if (response.statusCode == 200) {
       setState(() {

@@ -39,7 +39,8 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 90, left: 0, right: 150, top: 0),
+                  padding:
+                      EdgeInsets.only(bottom: 90, left: 0, right: 150, top: 0),
                   child: Text(
                     'APPLICATION\nDEVELOPMENT',
                     style: TextStyle(
@@ -58,7 +59,8 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ClassroomActivityScreen()),
+                              builder: (context) =>
+                                  const ClassroomActivityScreen()),
                         );
                       },
                       child: Container(
@@ -84,7 +86,8 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ClassroomStudentManagementScreen()),
+                              builder: (context) =>
+                                  const ClassroomStudentManagementScreen()),
                         );
                       },
                       child: Container(
@@ -223,7 +226,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
   }
 
   Future<void> _fetchSubjects() async {
-    const url = 'http://localhost/college_poc/fetch_students.php';
+    const url = 'http://10.0.2.2/college_poc/fetch_students.php';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -239,7 +242,8 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: const Text("No Students"),
-                content: const Text("No Students Currently Enrolled to the Subject"),
+                content:
+                    const Text("No Students Currently Enrolled to the Subject"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -265,130 +269,147 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(child: CircularProgressIndicator())
         : Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: _subjects.length,
-        itemBuilder: (context, index) {
-          final subject = _subjects[index];
-          return Column(
-            children: [
-              ExpansionTile(
-                title: Text(
-                  subject.studentName,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins-SemiBold',
-                  ),
-                ),
-                leading: Image.asset(
-                  'icons/down-button.png',
-                  width: 30,
-                  height: 30,
-                  color: const Color(0xFF0187F1),
-                ),
-                controlAffinity: ListTileControlAffinity.leading,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,                          children: [                            Row(                              mainAxisAlignment: MainAxisAlignment.center,                              children: [
-                      const Text(
-                        'Student No: ',
-                        style: TextStyle(
-                          fontFamily: 'Poppins-SemiBold',                                    fontSize: 10,                                  ),                                ),                                Text(                                  subject.studentNumber,                                  style: const TextStyle(                                    fontFamily: 'Poppins-Regular',                                    fontSize: 10,                                  ),                                ),                              ],
-                ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                      const Text(
-                        'Year Level: ',
-                        style: TextStyle(
-                          fontFamily: 'Poppins-SemiBold',
-                          fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        subject.yearLevel.toString(),
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _subjects.length,
+              itemBuilder: (context, index) {
+                final subject = _subjects[index];
+                return Column(
+                  children: [
+                    ExpansionTile(
+                      title: Text(
+                        subject.studentName,
                         style: const TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 10,
+                          fontFamily: 'Poppins-SemiBold',
                         ),
                       ),
-                    ],
-                  ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Program: ',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-SemiBold',
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          subject.program,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Action(s):',
-                      style: TextStyle(
-                        fontFamily: 'Poppins-SemiBold',
-                        fontSize: 10,
+                      leading: Image.asset(
+                        'icons/down-button.png',
+                        width: 30,
+                        height: 30,
+                        color: const Color(0xFF0187F1),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Action for delete student
-                          },
-                          child: const Row(
-                            children: [
-                              Icon(Icons.delete, color: Colors.red,),
-                              SizedBox(width: 4),
-                              Text(
-                                'Delete',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins-Regular',
-                                  fontSize: 10,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Student No: ',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins-SemiBold',
+                                    fontSize: 10,
+                                  ),
                                 ),
+                                Text(
+                                  subject.studentNumber,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Year Level: ',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins-SemiBold',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Text(
+                                  subject.yearLevel.toString(),
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Program: ',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins-SemiBold',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Text(
+                                  subject.program,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Action(s):',
+                              style: TextStyle(
+                                fontFamily: 'Poppins-SemiBold',
+                                fontSize: 10,
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Action for delete student
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1.0,
+                          color: Colors.black,
+                          indent: 30.0,
+                          endIndent: 30.0,
                         ),
                       ],
                     ),
                   ],
-                ),
-                  const Divider(
-                    thickness: 1.0,
-                    color: Colors.black,
-                    indent: 30.0,
-                    endIndent: 30.0,
-                  ),
-                ],
-              ),
-            ],
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 }
 
@@ -428,7 +449,8 @@ class ButtonsLayout extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const StudentFormScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const StudentFormScreen()),
               );
             },
             icon: const Icon(
@@ -453,10 +475,8 @@ class ButtonsLayout extends StatelessWidget {
   }
 }
 
-
 void main() {
   runApp(const MaterialApp(
     home: ClassroomStudentManagementScreen(),
   ));
 }
-

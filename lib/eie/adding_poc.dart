@@ -67,7 +67,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   }
 
   Future<void> _fetchSubjects() async {
-    const url = 'http://localhost/poc_head/subjects/fetch_subjects.php';
+    const url = 'http://10.0.2.2/poc_head/subjects/fetch_subjects.php';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -116,7 +116,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
         print('Failed to send data. Error: ${response.reasonPhrase}');
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send data. Error: ${response.reasonPhrase}')),
+        SnackBar(
+            content:
+                Text('Failed to send data. Error: ${response.reasonPhrase}')),
       );
     }
   }
@@ -197,12 +199,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                )
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
                     : const Text(
-                  'Add',
-                  style: TextStyle(color: Colors.white),
-                ),
+                        'Add',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             ],
           ),

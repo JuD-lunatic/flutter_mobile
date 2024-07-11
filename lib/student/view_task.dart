@@ -17,9 +17,10 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
   bool workSubmitted = false;
   String submissionMessage = 'You have no work uploaded.';
 
-  Future<void> submitWork(String type, String content, String description, {File? file}) async {
+  Future<void> submitWork(String type, String content, String description,
+      {File? file}) async {
     try {
-      var uri = Uri.parse('http://localhost/college_poc/submit_work.php');
+      var uri = Uri.parse('http://10.0.2.2/college_poc/submit_work.php');
       var request = http.MultipartRequest('POST', uri);
 
       request.fields['type'] = type;
@@ -53,8 +54,6 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
       });
     }
   }
-
-
 
   void _onInsertLinkClick() {
     showDialog(
@@ -328,7 +327,9 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
             Container(
               margin: const EdgeInsets.fromLTRB(50, 30, 0, 15),
               child: Text(
-                workSubmitted ? submissionMessage : 'You have no work uploaded.',
+                workSubmitted
+                    ? submissionMessage
+                    : 'You have no work uploaded.',
                 style: GoogleFonts.getFont(
                   'Poppins',
                   fontWeight: FontWeight.w400,

@@ -155,7 +155,8 @@ class SubmissionsScreen extends StatelessWidget {
               width: 65,
               child: FloatingActionButton(
                 onPressed: () {
-                  _showScoresDialog(context);  // Call the method to show the dialog
+                  _showScoresDialog(
+                      context); // Call the method to show the dialog
                 },
                 backgroundColor: Colors.blue.shade100,
                 shape: const CircleBorder(),
@@ -181,7 +182,8 @@ class SubmissionsScreen extends StatelessWidget {
           ),
           content: SingleChildScrollView(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,  // Adjust the width as needed
+              width: MediaQuery.of(context).size.width *
+                  0.8, // Adjust the width as needed
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -223,11 +225,11 @@ class SubmissionsScreen extends StatelessWidget {
                                 child: Text(
                                   'Pronunciation',
                                   style: GoogleFonts.getFont(
-                                      'Poppins',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                      letterSpacing: -0.2,
-                                      color: const Color(0xFF000000),
+                                    'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                    letterSpacing: -0.2,
+                                    color: const Color(0xFF000000),
                                   ),
                                 ),
                               ),
@@ -238,11 +240,11 @@ class SubmissionsScreen extends StatelessWidget {
                                   child: Text(
                                     'Grammar',
                                     style: GoogleFonts.getFont(
-                                        'Poppins',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                        letterSpacing: -0.2,
-                                        color: const Color(0xFF000000),
+                                      'Poppins',
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      letterSpacing: -0.2,
+                                      color: const Color(0xFF000000),
                                     ),
                                   ),
                                 ),
@@ -253,13 +255,13 @@ class SubmissionsScreen extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Fluency',
-                                   style: GoogleFonts.getFont(
-                                       'Poppins',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                        letterSpacing: -0.2,
-                                        color: const Color(0xFF000000),
-                                   ),
+                                    style: GoogleFonts.getFont(
+                                      'Poppins',
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      letterSpacing: -0.2,
+                                      color: const Color(0xFF000000),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -295,32 +297,34 @@ class SubmissionsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                             Container(
-                               margin: const EdgeInsets.fromLTRB(0, 0, 5.6, 6),
-                               child: Text(
-                                 'EPGF Average',
-                                 style: GoogleFonts.getFont(''
-                                     'Poppins',
-                                   fontWeight: FontWeight.w700,
-                                   fontSize: 12,
-                                   letterSpacing: -0.2,
-                                   color: const Color(0xFF000000),
-                                 ),
-                               ),
-                             ),
-                             Container(
-                               margin: const EdgeInsets.fromLTRB(0, 0, 13.9, 0),
-                               child: Text(
-                                 'Proficiency',
-                                 style: GoogleFonts.getFont(
-                                     'Poppins',
-                                   fontWeight: FontWeight.w700,
-                                   fontSize: 12,
-                                   letterSpacing: -0.2,
-                                   color: const Color(0xFF000000),
-                                 ),
-                               ),
-                             ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 5.6, 6),
+                                child: Text(
+                                  'EPGF Average',
+                                  style: GoogleFonts.getFont(
+                                    ''
+                                    'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                    letterSpacing: -0.2,
+                                    color: const Color(0xFF000000),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(0, 0, 13.9, 0),
+                                child: Text(
+                                  'Proficiency',
+                                  style: GoogleFonts.getFont(
+                                    'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                    letterSpacing: -0.2,
+                                    color: const Color(0xFF000000),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -333,7 +337,7 @@ class SubmissionsScreen extends StatelessWidget {
                               child: Text(
                                 '2.25',
                                 style: GoogleFonts.getFont(
-                                    'Poppins',
+                                  'Poppins',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
                                   letterSpacing: -0.2,
@@ -419,7 +423,6 @@ class SubmissionsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-
                           ],
                         )
                       ],
@@ -452,7 +455,8 @@ class _ContainerManagerState extends State<ContainerManager> {
   }
 
   fetchSubmissions() async {
-    final response = await http.get(Uri.parse('http://localhost/college_poc/fetch_submissions.php'));
+    final response = await http
+        .get(Uri.parse('http://10.0.2.2/college_poc/fetch_submissions.php'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -478,7 +482,8 @@ class _ContainerManagerState extends State<ContainerManager> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ViewSubmitGradedScreen(submission: submission)),
+                          builder: (context) =>
+                              ViewSubmitGradedScreen(submission: submission)),
                     );
                   },
                   child: Container(

@@ -70,11 +70,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
     });
 
     try {
-      var url = 'http://localhost/poc_head/subjects/subjects.php';
+      var url = 'http://10.0.2.2/poc_head/subjects/subjects.php';
       var body = {
         'subject_name': _subjectNameController.text,
         'subject_code': _subjectCodeController.text,
-        'programs': _selectedPrograms.map((program) => _programMap[program]).join(','),
+        'programs':
+            _selectedPrograms.map((program) => _programMap[program]).join(','),
         'year_levels': _selectedYearLevels.join(','),
       };
 
@@ -95,7 +96,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send data. Error: ${response.reasonPhrase}')),
+          SnackBar(
+              content:
+                  Text('Failed to send data. Error: ${response.reasonPhrase}')),
         );
       }
     } catch (e) {
@@ -235,9 +238,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.red,
-                  backgroundColor: Colors.white
-              ),
+                  foregroundColor: Colors.red, backgroundColor: Colors.white),
               child: const Text(
                 'Cancel',
                 style: TextStyle(color: Color(0xFF0089F6)),

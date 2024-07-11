@@ -47,7 +47,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
 
   void _onPost() async {
-    final url = Uri.parse('http://localhost/college_poc/add_task.php');
+    final url = Uri.parse('http://10.0.2.2/college_poc/add_task.php');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -68,7 +68,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add task: ${responseBody['message']}')),
+          SnackBar(
+              content: Text('Failed to add task: ${responseBody['message']}')),
         );
       }
     } else {

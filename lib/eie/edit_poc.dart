@@ -34,15 +34,16 @@ class EditPOCScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: EditPOCForm(id: id),  // Pass the ID to the form
+        child: EditPOCForm(id: id), // Pass the ID to the form
       ),
     );
   }
 }
 
 class EditPOCForm extends StatefulWidget {
-  final String id;  // Add this line
-  const EditPOCForm({Key? key, required this.id}) : super(key: key);  // Modify the constructor
+  final String id; // Add this line
+  const EditPOCForm({Key? key, required this.id})
+      : super(key: key); // Modify the constructor
 
   @override
   _EditPOCFormState createState() => _EditPOCFormState();
@@ -58,7 +59,7 @@ class _EditPOCFormState extends State<EditPOCForm> {
       _isLoading = true;
     });
 
-    var url = 'http://localhost/poc_head/poc/edit_poc.php';
+    var url = 'http://10.0.2.2/poc_head/poc/edit_poc.php';
     var response = await http.post(Uri.parse(url), body: {
       'id': widget.id,
       'name': _nameController.text,
@@ -75,7 +76,9 @@ class _EditPOCFormState extends State<EditPOCForm> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send data. Error: ${response.reasonPhrase}')),
+        SnackBar(
+            content:
+                Text('Failed to send data. Error: ${response.reasonPhrase}')),
       );
     }
   }
@@ -154,12 +157,12 @@ class _EditPOCFormState extends State<EditPOCForm> {
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                )
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
                     : const Text(
-                  'Update',
-                  style: TextStyle(color: Colors.white),
-                ),
+                        'Update',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             ],
           ),

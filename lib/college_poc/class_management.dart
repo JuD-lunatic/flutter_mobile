@@ -156,7 +156,8 @@ class ClassScreen extends StatelessWidget {
   }
 
   Future<List<Map<String, dynamic>>> fetchData() async {
-    final response = await http.get(Uri.parse('http://localhost/poc_head/poc/fetch_poc.php'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2/poc_head/poc/fetch_poc.php'));
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       return jsonResponse.map((e) => e as Map<String, dynamic>).toList();
@@ -174,18 +175,18 @@ class StackedContainers extends StatelessWidget {
   Widget build(BuildContext context) {
     return data != null
         ? ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: data!.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Column(
-          children: [
-            ContainerItem(data: data![index]),
-            const SizedBox(height: 10),
-          ],
-        );
-      },
-    )
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: data!.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  ContainerItem(data: data![index]),
+                  const SizedBox(height: 10),
+                ],
+              );
+            },
+          )
         : const Center(child: Text('No data'));
   }
 }

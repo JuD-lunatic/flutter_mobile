@@ -23,7 +23,8 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
   }
 
   fetchSubmissions() async {
-    final response = await http.get(Uri.parse('http://localhost/college_poc/fetch_submissions.php'));
+    final response = await http
+        .get(Uri.parse('http://10.0.2.2/college_poc/fetch_submissions.php'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -127,7 +128,8 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(11, 0, 0, 16),
-                        child: Text( // Task Description
+                        child: Text(
+                          // Task Description
                           widget.task['description'],
                           textAlign: TextAlign.justify,
                           style: GoogleFonts.getFont(
@@ -175,7 +177,8 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                   color: Color(0xFF0187F1),
                 ),
               ),
-              const SizedBox(height: 10), // Adding some space between text and buttons
+              const SizedBox(
+                  height: 10), // Adding some space between text and buttons
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: submissions.map((submission) {
@@ -184,7 +187,8 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ViewSubmitGradedScreen(submission: submission),
+                          builder: (context) =>
+                              ViewSubmitGradedScreen(submission: submission),
                         ),
                       );
                     },
@@ -217,7 +221,8 @@ class _ContainerManagerState extends State<ContainerManager> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ViewSubmitGradedScreen(submission: widget.submission),
+            builder: (context) =>
+                ViewSubmitGradedScreen(submission: widget.submission),
           ),
         );
       },

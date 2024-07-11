@@ -28,11 +28,14 @@ class _AssigningPageState extends State<AssigningPage> {
 
   Future<void> fetchSubjects() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost/poc_head/subjects/get_subjects.php'));
+      final response = await http
+          .get(Uri.parse('http://10.0.2.2/poc_head/subjects/get_subjects.php'));
       if (response.statusCode == 200) {
         final List<dynamic> subjectsData = json.decode(response.body);
         setState(() {
-          _subjectsList = subjectsData.map((item) => item['subject_name'].toString()).toList();
+          _subjectsList = subjectsData
+              .map((item) => item['subject_name'].toString())
+              .toList();
           isLoadingSubjects = false;
         });
       } else {
@@ -48,7 +51,8 @@ class _AssigningPageState extends State<AssigningPage> {
 
   Future<void> fetchCollegePOCs() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
+      final response = await http
+          .get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
       if (response.statusCode == 200) {
         final List<dynamic> pocsData = json.decode(response.body);
         setState(() {
@@ -72,7 +76,9 @@ class _AssigningPageState extends State<AssigningPage> {
   }
 
   Future<void> assignSubject() async {
-    if (_selectedCollegePOC != null && _assignedSubject != null && _selectedCollegePOCEmail != null) {
+    if (_selectedCollegePOC != null &&
+        _assignedSubject != null &&
+        _selectedCollegePOCEmail != null) {
       final Map<String, String> body = {
         'poc_name': _selectedCollegePOC!,
         'email': _selectedCollegePOCEmail!,
@@ -90,16 +96,21 @@ class _AssigningPageState extends State<AssigningPage> {
         final responseData = json.decode(response.body);
         print(responseData);
         if (responseData['success']) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Subject assigned successfully!')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Subject assigned successfully!')));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to assign subject.')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to assign subject.')));
         }
       } else {
-        print('Server error: ${response.body}'); // Print the server error message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Server error: Failed to assign subject.')));
+        print(
+            'Server error: ${response.body}'); // Print the server error message
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Server error: Failed to assign subject.')));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please select both POC and Subject.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select both POC and Subject.')));
     }
   }
 
@@ -151,32 +162,33 @@ class _AssigningPageState extends State<AssigningPage> {
               isLoadingPOCs
                   ? CircularProgressIndicator()
                   : DropdownButtonFormField<String>(
-                value: _selectedCollegePOC,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-                hint: const Text('Select College POC'),
-                icon: const Icon(Icons.arrow_drop_down),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCollegePOC = newValue;
-                    _selectedCollegePOCEmail = _collegePOCList
-                        .firstWhere((poc) => poc['poc_name'] == newValue)['email'];
-                  });
-                },
-                items: _collegePOCList.map<DropdownMenuItem<String>>((Map<String, String> poc) {
-                  return DropdownMenuItem<String>(
-                    value: poc['poc_name'],
-                    child: Text(poc['poc_name']!),
-                  );
-                }).toList(),
-              ),
+                      value: _selectedCollegePOC,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                      hint: const Text('Select College POC'),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedCollegePOC = newValue;
+                          _selectedCollegePOCEmail = _collegePOCList.firstWhere(
+                              (poc) => poc['poc_name'] == newValue)['email'];
+                        });
+                      },
+                      items: _collegePOCList.map<DropdownMenuItem<String>>(
+                          (Map<String, String> poc) {
+                        return DropdownMenuItem<String>(
+                          value: poc['poc_name'],
+                          child: Text(poc['poc_name']!),
+                        );
+                      }).toList(),
+                    ),
               const SizedBox(height: 60),
               Text(
                 'Assign Subject',
@@ -191,30 +203,31 @@ class _AssigningPageState extends State<AssigningPage> {
               isLoadingSubjects
                   ? CircularProgressIndicator()
                   : DropdownButtonFormField<String>(
-                value: _assignedSubject,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-                hint: const Text('Select Subject'),
-                icon: const Icon(Icons.arrow_drop_down),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _assignedSubject = newValue;
-                  });
-                },
-                items: _subjectsList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                      value: _assignedSubject,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                      hint: const Text('Select Subject'),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _assignedSubject = newValue;
+                        });
+                      },
+                      items: _subjectsList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
               const SizedBox(height: 90),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -229,7 +242,8 @@ class _AssigningPageState extends State<AssigningPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    child: const Text('Cancel', style: TextStyle(color: Color(0xFF0187F1))),
+                    child: const Text('Cancel',
+                        style: TextStyle(color: Color(0xFF0187F1))),
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
@@ -240,7 +254,8 @@ class _AssigningPageState extends State<AssigningPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    child: const Text('Assign', style: TextStyle(color: Colors.white)),
+                    child: const Text('Assign',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),

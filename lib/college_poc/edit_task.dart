@@ -69,7 +69,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   }
 
   void _onUpdate() async {
-    final url = Uri.parse('http://localhost/college_poc/edit_task.php');
+    final url = Uri.parse('http://10.0.2.2/college_poc/edit_task.php');
     final response = await http.put(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -91,7 +91,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update task: ${responseBody['message']}')),
+          SnackBar(
+              content:
+                  Text('Failed to update task: ${responseBody['message']}')),
         );
       }
     } else {

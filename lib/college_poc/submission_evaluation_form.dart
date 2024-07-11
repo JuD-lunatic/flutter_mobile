@@ -49,7 +49,16 @@ class _EvaluationFormScreenState extends State<EvaluationFormScreen> {
   String? _selectedFluencyQualityOfResponse;
   String? _selectedFluencyDetailOfResponse;
 
-  final List<String> _options = ['0.00', '0.50', '1.00', '1.50', '2.00', '2.50', '3.00', '4.00'];
+  final List<String> _options = [
+    '0.00',
+    '0.50',
+    '1.00',
+    '1.50',
+    '2.00',
+    '2.50',
+    '3.00',
+    '4.00'
+  ];
 
   // Calculate average for a list of scores
 // Calculate average for a list of scores
@@ -65,7 +74,6 @@ class _EvaluationFormScreenState extends State<EvaluationFormScreen> {
     // Handle the case where all scores are null (initialize to 0.0)
     return count == 0 ? 0.0 : sum / count;
   }
-
 
   // Determine EPGF descriptor based on average
   String _getEPGFDescriptor(double average) {
@@ -86,11 +94,16 @@ class _EvaluationFormScreenState extends State<EvaluationFormScreen> {
 
   // Determine CEFR and CEFR category based on average
   Map<String, String> _getCEFR(double average) {
-    if (average >= 1.00 && average <= 1.49) return {'CEFR': 'A1', 'Category': 'BEGINNER'};
-    if (average >= 1.50 && average <= 1.99) return {'CEFR': 'A2', 'Category': 'ELEMENTARY'};
-    if (average >= 2.00 && average <= 2.49) return {'CEFR': 'B1', 'Category': 'INTERMEDIATE'};
-    if (average >= 2.50 && average <= 2.99) return {'CEFR': 'B2', 'Category': 'UPPER INTERMEDIATE'};
-    if (average >= 3.00 && average <= 3.99) return {'CEFR': 'C1', 'Category': 'PROFICIENT'};
+    if (average >= 1.00 && average <= 1.49)
+      return {'CEFR': 'A1', 'Category': 'BEGINNER'};
+    if (average >= 1.50 && average <= 1.99)
+      return {'CEFR': 'A2', 'Category': 'ELEMENTARY'};
+    if (average >= 2.00 && average <= 2.49)
+      return {'CEFR': 'B1', 'Category': 'INTERMEDIATE'};
+    if (average >= 2.50 && average <= 2.99)
+      return {'CEFR': 'B2', 'Category': 'UPPER INTERMEDIATE'};
+    if (average >= 3.00 && average <= 3.99)
+      return {'CEFR': 'C1', 'Category': 'PROFICIENT'};
     if (average == 4.00) return {'CEFR': 'C2', 'Category': 'ADVANCED / Native'};
     return {'CEFR': '', 'Category': ''};
   }
@@ -145,7 +158,7 @@ class _EvaluationFormScreenState extends State<EvaluationFormScreen> {
       'cefr_category': cefrData['Category'],
     };
 
-    var url = 'http://localhost/college_poc/store_data.php';
+    var url = 'http://10.0.2.2/college_poc/store_data.php';
     var response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -369,15 +382,14 @@ class ButtonRow extends StatelessWidget {
           child: isLoading
               ? const CircularProgressIndicator(color: Colors.white)
               : const Text(
-            'Submit',
-            style: TextStyle(color: Colors.white),
-          ),
+                  'Submit',
+                  style: TextStyle(color: Colors.white),
+                ),
         ),
       ],
     );
   }
 }
-
 
 class EPGFScoreCard extends StatefulWidget {
   const EPGFScoreCard({Key? key}) : super(key: key);
@@ -402,7 +414,16 @@ class _EPGFScoreCardState extends State<EPGFScoreCard> {
   String? _selectedFluencyQualityOfResponse;
   String? _selectedFluencyDetailOfResponse;
 
-  final List<String> _options = ['0.00', '0.50', '1.00', '1.50', '2.00', '2.50', '3.00', '4.00'];
+  final List<String> _options = [
+    '0.00',
+    '0.50',
+    '1.00',
+    '1.50',
+    '2.00',
+    '2.50',
+    '3.00',
+    '4.00'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -544,15 +565,14 @@ class _EPGFScoreCardState extends State<EPGFScoreCard> {
         ),
         children: _options
             .map((option) => RadioListTile<String>(
-          value: option,
-          groupValue: groupValue,
-          onChanged: onChanged,
-          title: Text(option),
-          controlAffinity: ListTileControlAffinity.trailing,
-        ))
+                  value: option,
+                  groupValue: groupValue,
+                  onChanged: onChanged,
+                  title: Text(option),
+                  controlAffinity: ListTileControlAffinity.trailing,
+                ))
             .toList(),
       ),
     );
   }
 }
-

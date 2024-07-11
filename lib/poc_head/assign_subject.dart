@@ -21,7 +21,9 @@ class AssignSubjectScreen extends StatelessWidget {
         return [];
       }
 
-      final uniqueData = data.cast<Map<String, dynamic>>().fold<List<Map<String, dynamic>>>([], (previousValue, element) {
+      final uniqueData = data
+          .cast<Map<String, dynamic>>()
+          .fold<List<Map<String, dynamic>>>([], (previousValue, element) {
         if (previousValue.any((e) => e['email'] == element['email'])) {
           return previousValue;
         } else {
@@ -35,6 +37,7 @@ class AssignSubjectScreen extends StatelessWidget {
       return [];
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +81,9 @@ class AssignSubjectScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ViewImplementingSubjectPage()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const ViewImplementingSubjectPage()),
                       );
                     },
                     child: Container(
@@ -103,7 +108,8 @@ class AssignSubjectScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ViewCollegePocsPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const ViewCollegePocsPage()),
                       );
                     },
                     child: Text(
@@ -169,7 +175,6 @@ class AssignSubjectScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -227,6 +232,7 @@ class AssignSubjectScreen extends StatelessWidget {
     );
   }
 }
+
 class ActionButtons extends StatelessWidget {
   const ActionButtons({super.key});
 
@@ -300,7 +306,8 @@ class CollegePOCList extends StatefulWidget {
 }
 
 class _CollegePOCListState extends State<CollegePOCList> {
-  List<dynamic> pocs = []; // Initialize the list to avoid late initialization error
+  List<dynamic> pocs =
+      []; // Initialize the list to avoid late initialization error
   bool isLoading = true;
 
   @override
@@ -311,7 +318,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> fetchPOCs() async {
     try {
-      var url = 'http://localhost/poc_head/poc/fetch_poc.php';
+      var url = 'http://10.0.2.2/poc_head/poc/fetch_poc.php';
       var response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -343,21 +350,21 @@ class _CollegePOCListState extends State<CollegePOCList> {
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : pocs.isEmpty
-        ? const Center(child: Text('No POCs found'))
-        : Column(
-      children: [
-        for (var poc in pocs)
-          ExpansionPanelWidget1(
-            name: poc['name'] ?? 'No Name',
-            subject: poc['subject'] ?? 'No Subject',
-            email: poc['email'] ?? 'No Email',
-            id: poc['id'] ?? '0',
-            onDelete: () {
-              _deletePOC(poc['id']);
-            },
-          ),
-      ],
-    );
+            ? const Center(child: Text('No POCs found'))
+            : Column(
+                children: [
+                  for (var poc in pocs)
+                    ExpansionPanelWidget1(
+                      name: poc['name'] ?? 'No Name',
+                      subject: poc['subject'] ?? 'No Subject',
+                      email: poc['email'] ?? 'No Email',
+                      id: poc['id'] ?? '0',
+                      onDelete: () {
+                        _deletePOC(poc['id']);
+                      },
+                    ),
+                ],
+              );
   }
 
   Future<void> _deletePOC(String? id) async {

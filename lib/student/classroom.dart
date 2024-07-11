@@ -38,7 +38,6 @@ class ClassroomScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +47,7 @@ class ClassroomScreen extends StatelessWidget {
               child: Text(
                 'EIE Tasks',
                 style: TextStyle(
-                  fontFamily:'Poppins-SemiBold',
+                  fontFamily: 'Poppins-SemiBold',
                   fontSize: 24,
                   color: Colors.black,
                 ),
@@ -58,7 +57,6 @@ class ClassroomScreen extends StatelessWidget {
           ],
         ),
       ),
-
       bottomNavigationBar: SafeArea(
         child: BottomAppBar(
           color: Colors.white,
@@ -167,7 +165,8 @@ class ActiveTask extends StatelessWidget {
   const ActiveTask({super.key});
 
   Future<List<dynamic>> fetchTasks() async {
-    final response = await http.get(Uri.parse('http://localhost/college_poc/get_tasks.php'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2/college_poc/get_tasks.php'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -261,7 +260,9 @@ class ActiveTask extends StatelessWidget {
           return const Text('No tasks available');
         } else {
           return Column(
-            children: snapshot.data!.map((task) => buildTaskCard(context, task)).toList(),
+            children: snapshot.data!
+                .map((task) => buildTaskCard(context, task))
+                .toList(),
           );
         }
       },

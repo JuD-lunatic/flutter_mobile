@@ -44,8 +44,8 @@ class ClassroomActivityScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(
-                      bottom: 5, left: 30, right: 15, top: 0),
+                  padding:
+                      EdgeInsets.only(bottom: 5, left: 30, right: 15, top: 0),
                   child: Text(
                     'APPLICATION DEVELOPMENT',
                     style: TextStyle(
@@ -57,7 +57,8 @@ class ClassroomActivityScreen extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 0, right: 275, top: 0),
+                  padding:
+                      EdgeInsets.only(bottom: 5, left: 0, right: 275, top: 0),
                   child: Text(
                     'BIT321k',
                     style: TextStyle(
@@ -69,7 +70,8 @@ class ClassroomActivityScreen extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 60, left: 0, right: 160, top: 0),
+                  padding:
+                      EdgeInsets.only(bottom: 60, left: 0, right: 160, top: 0),
                   child: Text(
                     'Danny Boy Casimero',
                     style: TextStyle(
@@ -88,7 +90,8 @@ class ClassroomActivityScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ClassroomActivityScreen(),
+                            builder: (context) =>
+                                const ClassroomActivityScreen(),
                           ),
                         );
                       },
@@ -122,7 +125,8 @@ class ClassroomActivityScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ClassroomStudentManagementScreen(),
+                            builder: (context) =>
+                                const ClassroomStudentManagementScreen(),
                           ),
                         );
                       },
@@ -165,10 +169,12 @@ class ClassroomActivityScreen extends StatelessWidget {
           ],
         ),
       ),
-      );
-    }
+    );
+  }
+
   Future<List<Map<String, dynamic>>> fetchData() async {
-    final response = await http.get(Uri.parse('http://localhost/poc_head/poc/fetch_poc.php'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2/poc_head/poc/fetch_poc.php'));
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       return jsonResponse.map((e) => e as Map<String, dynamic>).toList();
@@ -176,7 +182,7 @@ class ClassroomActivityScreen extends StatelessWidget {
       throw Exception('Failed to load data');
     }
   }
-  }
+}
 
 class ActiveTask extends StatefulWidget {
   const ActiveTask({super.key});
@@ -195,7 +201,8 @@ class _ActiveTaskState extends State<ActiveTask> {
   }
 
   Future<List<dynamic>> fetchTasks() async {
-    final response = await http.get(Uri.parse('http://localhost/college_poc/get_tasks.php'));
+    final response =
+        await http.get(Uri.parse('http://localhost/college_poc/get_tasks.php'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -322,7 +329,10 @@ class _ActiveTaskState extends State<ActiveTask> {
                     },
                     child: const Text(
                       'Edit ',
-                      style: TextStyle(fontSize: 12, color: Colors.blue, fontFamily: 'Montserrat-Regular'),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blue,
+                          fontFamily: 'Montserrat-Regular'),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -336,8 +346,7 @@ class _ActiveTaskState extends State<ActiveTask> {
                       style: TextStyle(
                           fontSize: 12,
                           color: Colors.red,
-                          fontFamily: 'Montserrat-Regular'
-                      ),
+                          fontFamily: 'Montserrat-Regular'),
                     ),
                   ),
                 ],
@@ -348,8 +357,6 @@ class _ActiveTaskState extends State<ActiveTask> {
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -364,7 +371,9 @@ class _ActiveTaskState extends State<ActiveTask> {
           return const Text('No tasks available');
         } else {
           return Column(
-            children: snapshot.data!.map((task) => buildTaskCard(context, task)).toList(),
+            children: snapshot.data!
+                .map((task) => buildTaskCard(context, task))
+                .toList(),
           );
         }
       },
@@ -386,7 +395,10 @@ class AddTaskButton extends StatelessWidget {
           ),
         );
       },
-      icon: const Icon(Icons.add_circle_outline, color: Colors.white,),
+      icon: const Icon(
+        Icons.add_circle_outline,
+        color: Colors.white,
+      ),
       label: const Text(
         'Add New Task',
         style: TextStyle(

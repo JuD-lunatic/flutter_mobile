@@ -147,7 +147,7 @@ class _EditSubjectFormState extends State<EditSubjectForm> {
     });
 
     try {
-      var url = 'http://localhost/poc_head/subjects/update_subject.php';
+      var url = 'http://10.0.2.2/poc_head/subjects/update_subject.php';
       var body = {
         'subject_id': widget.subjectId.toString(),
         'subject_name': _subjectNameController.text,
@@ -169,7 +169,9 @@ class _EditSubjectFormState extends State<EditSubjectForm> {
         Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update subject. Error: ${response.reasonPhrase}')),
+          SnackBar(
+              content: Text(
+                  'Failed to update subject. Error: ${response.reasonPhrase}')),
         );
       }
     } catch (e) {
@@ -392,18 +394,17 @@ class _EditSubjectFormState extends State<EditSubjectForm> {
             ),
             child: _isLoading
                 ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  )
                 : const Text(
-              'Save Changes',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+                    'Save Changes',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
           ),
         ),
       ],
     );
   }
 }
-

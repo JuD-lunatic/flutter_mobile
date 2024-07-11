@@ -42,7 +42,6 @@ class CollegePOCManagementScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
@@ -55,7 +54,8 @@ class CollegePOCManagementScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ViewActivePOCScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const ViewActivePOCScreen()),
                     );
                   },
                   child: const Text(
@@ -88,7 +88,6 @@ class CollegePOCManagementScreen extends StatelessWidget {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: SizedBox(
@@ -169,7 +168,8 @@ class CollegePOCManagementScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()),
                   );
                 },
                 child: const Column(
@@ -223,8 +223,6 @@ class ContainerManager extends StatelessWidget {
   }
 }
 
-
-
 class CollegePOCList extends StatefulWidget {
   const CollegePOCList({super.key});
 
@@ -236,7 +234,8 @@ class _CollegePOCListState extends State<CollegePOCList> {
   List<dynamic> pocData = [];
 
   Future<void> fetchPOCs() async {
-    final response = await http.get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
+    final response = await http
+        .get(Uri.parse('http://10.0.2.2/college_poc/display_contacts.php'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -297,7 +296,8 @@ class ButtonsLayout extends StatelessWidget {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('CSV File has been successfully Imported.')),
+          const SnackBar(
+              content: Text('CSV File has been successfully Imported.')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -463,18 +463,24 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                           // Navigate to EditPOCScreen
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => EditPOCScreen(id: id,)),
+                            MaterialPageRoute(
+                                builder: (context) => EditPOCScreen(
+                                      id: id,
+                                    )),
                           );
                         },
                         child: const Row(
                           children: [
                             Icon(Icons.edit, size: 20),
                             SizedBox(width: 4),
-                            Text('Edit', style: TextStyle(fontSize: 10, fontFamily: 'Poppins-Regular',)),
+                            Text('Edit',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins-Regular',
+                                )),
                           ],
                         ),
                       ),
-
                       const SizedBox(width: 16),
                       GestureDetector(
                         onTap: () {
@@ -484,7 +490,11 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                           children: [
                             Icon(Icons.delete, size: 20),
                             SizedBox(width: 4),
-                            Text('Delete', style: TextStyle(fontSize: 10, fontFamily: 'Poppins-Regular',)),
+                            Text('Delete',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins-Regular',
+                                )),
                           ],
                         ),
                       ),
