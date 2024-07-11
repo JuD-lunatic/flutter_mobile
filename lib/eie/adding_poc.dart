@@ -52,49 +52,15 @@ class RegistrationForm extends StatefulWidget {
 
 class _RegistrationFormState extends State<RegistrationForm> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  String? _selectedSubject;
-  final List<String> _selectedPrograms = [];
   bool _isLoading = false;
-  List<String> _subjects = [];
-  bool _isSubjectsLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchSubjects();
-  }
-
-  Future<void> _fetchSubjects() async {
-    const url = 'http://10.0.2.2/poc_head/subjects/fetch_subjects.php';
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        setState(() {
-          _subjects = List<String>.from(data);
-          _isSubjectsLoading = false;
-        });
-      } else {
-        throw Exception('Failed to load subjects');
-      }
-    } catch (e) {
-      setState(() {
-        _isSubjectsLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load subjects. Error: $e')),
-      );
-    }
-  }
 
   Future<void> _submitForm(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
 
-    var url = 'http://localhost/poc_head/poc/add_poc.php';
+    var url = 'http://10.0.2.2/poc_head/poc/add_poc.php';
     var response = await http.post(Uri.parse(url), body: {
       'name': _nameController.text,
       'email': _emailController.text,

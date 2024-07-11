@@ -271,7 +271,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
   }
 
   Future<void> _deleteSubject(String id) async {
-    final url = 'http://localhost/poc_head/subjects/delete_subject.php?id=$id';
+    final url = 'http://10.0.2.2/poc_head/subjects/delete_subject.php?id=$id';
     try {
       final response = await http.delete(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -490,7 +490,7 @@ class ButtonsLayout extends StatelessWidget {
 
   Future<void> sendDataToBackend(
       List<List<dynamic>> data, BuildContext context) async {
-    Uri uri = Uri.parse('http://localhost/college_poc/importSubj.php');
+    Uri uri = Uri.parse('http://10.0.2.2/college_poc/importSubj.php');
     try {
       List<Map<String, dynamic>> jsonList = data
           .map((list) => {
