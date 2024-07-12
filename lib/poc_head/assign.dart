@@ -52,7 +52,7 @@ class _AssigningPageState extends State<AssigningPage> {
   Future<void> fetchCollegePOCs() async {
     try {
       final response = await http
-          .get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
+          .get(Uri.parse('http://10.0.2.2/college_poc/display_contacts.php'));
       if (response.statusCode == 200) {
         final List<dynamic> pocsData = json.decode(response.body);
         setState(() {
@@ -87,7 +87,7 @@ class _AssigningPageState extends State<AssigningPage> {
       print('Sending data: $body'); // Print the data being sent
 
       final response = await http.post(
-        Uri.parse('http://localhost/college_poc/assign_subject.php'),
+        Uri.parse('http://10.0.2.2/college_poc/assign_subject.php'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body),
       );
@@ -97,20 +97,20 @@ class _AssigningPageState extends State<AssigningPage> {
         print(responseData);
         if (responseData['success']) {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Subject assigned successfully!')));
+              const SnackBar(content: Text('Subject assigned successfully!')));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to assign subject.')));
+              const SnackBar(content: Text('Failed to assign subject.')));
         }
       } else {
         print(
             'Server error: ${response.body}'); // Print the server error message
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Server error: Failed to assign subject.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Server error: Failed to assign subject.')));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please select both POC and Subject.')));
+          const SnackBar(content: Text('Please select both POC and Subject.')));
     }
   }
 
@@ -160,7 +160,7 @@ class _AssigningPageState extends State<AssigningPage> {
               ),
               const SizedBox(height: 10),
               isLoadingPOCs
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : DropdownButtonFormField<String>(
                       value: _selectedCollegePOC,
                       decoration: const InputDecoration(
@@ -201,7 +201,7 @@ class _AssigningPageState extends State<AssigningPage> {
               ),
               const SizedBox(height: 10),
               isLoadingSubjects
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : DropdownButtonFormField<String>(
                       value: _assignedSubject,
                       decoration: const InputDecoration(

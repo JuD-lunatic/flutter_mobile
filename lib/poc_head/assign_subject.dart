@@ -1,13 +1,14 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'reassign.dart';
 import '../eie/data_fetcher.dart';
 import 'main.dart';
 import 'profile.dart';
 import 'view_collegepocs.dart';
 import 'view_impsubjects.dart';
 import 'assign.dart';
-import 'package:http/http.dart' as http;
 
 class AssignSubjectScreen extends StatelessWidget {
   const AssignSubjectScreen({super.key});
@@ -345,6 +346,31 @@ class _CollegePOCListState extends State<CollegePOCList> {
     }
   }
 
+  Future<void> _deletePOC(String? id) async {
+    try {
+      var url = 'http://10.0.2.2/poc_head/poc/delete_poc.php';
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'id': id}),
+      );
+
+      if (response.statusCode == 200) {
+        fetchPOCs();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('POC deleted successfully')),
+        );
+      } else {
+        throw Exception('Failed to delete POC: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete POC: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -362,34 +388,18 @@ class _CollegePOCListState extends State<CollegePOCList> {
                       onDelete: () {
                         _deletePOC(poc['id']);
                       },
+                      onReassign: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ReAssigningPage(id: poc['id']),
+                          ),
+                        );
+                      },
                     ),
                 ],
               );
-  }
-
-  Future<void> _deletePOC(String? id) async {
-    try {
-      var url = 'http://localhost/poc_head/poc/delete_poc.php';
-      var response = await http.post(
-        Uri.parse(url),
-        body: {'id': id ?? ''},
-      );
-
-      if (response.statusCode == 200) {
-        // Reload the POC list after deletion
-        fetchPOCs();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('POC deleted successfully')),
-        );
-      } else {
-        throw Exception('Failed to delete POC: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete POC: $e')),
-      );
-    }
   }
 }
 
@@ -399,6 +409,7 @@ class ExpansionPanelWidget1 extends StatelessWidget {
   final String email;
   final String id;
   final VoidCallback onDelete;
+  final VoidCallback onReassign;
 
   const ExpansionPanelWidget1({
     super.key,
@@ -407,6 +418,7 @@ class ExpansionPanelWidget1 extends StatelessWidget {
     required this.email,
     required this.id,
     required this.onDelete,
+    required this.onReassign,
   });
 
   @override
@@ -491,6 +503,47 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                           style: const TextStyle(
                             fontFamily: 'Poppins-Regular',
                             fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Text(
+                          'Action(s): ',
+                          style: TextStyle(
+                            fontFamily: 'Poppins-SemiBold',
+                            fontSize: 10,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: onReassign,
+                          child: const Row(
+                            children: [
+                              Icon(Icons.assignment, size: 20),
+                              SizedBox(width: 4),
+                              Text('Re-Assign',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: 'Poppins-Regular',
+                                  )),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        GestureDetector(
+                          onTap: onDelete,
+                          child: const Row(
+                            children: [
+                              Icon(Icons.delete, size: 20),
+                              SizedBox(width: 4),
+                              Text('Delete',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: 'Poppins-Regular',
+                                  )),
+                            ],
                           ),
                         ),
                       ],

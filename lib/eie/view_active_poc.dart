@@ -168,39 +168,16 @@ class _CollegePOCListState extends State<CollegePOCList> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : pocs.isEmpty
-            ? const Center(child: Text('No POCs found'))
-            : Column(
-                children: [
-                  for (var poc in pocs)
-                    ExpansionPanelWidget1(
-                      name: poc['name'] ?? 'No Name',
-                      subject: poc['subject'] ?? 'No Subject',
-                      email: poc['email'] ?? 'No Email',
-                      id: poc['id'] ?? '0',
-                      onDelete: () {
-                        _deletePOC(poc['id']);
-                      },
-                    ),
-                ],
-              );
-  }
-
-  Future<void> _deletePOC(String? id) async {
+  Future<void> _deletePOC(String id) async {
     try {
-      var url = 'http://localhost/poc_head/poc/delete_poc.php';
+      var url = 'http://10.0.2.2/poc_head/poc/delete_active_poc.php';
       var response = await http.post(
         Uri.parse(url),
-        body: {'id': id ?? ''},
+        body: {'id': id},
       );
 
       if (response.statusCode == 200) {
-        // Reload the POC list after deletion
-        fetchPOCs();
+        fetchPOCs(); // Reload the POC list after deletion
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('POC deleted successfully')),
         );
@@ -214,22 +191,74 @@ class _CollegePOCListState extends State<CollegePOCList> {
       );
     }
   }
+
+  Future<void> _editPOC(String id, String name, String email) async {
+    try {
+      var url = 'http://10.0.2.2/poc_head/poc/edit_active_poc.php';
+      var response = await http.post(
+        Uri.parse(url),
+        body: {
+          'id': id,
+          'name': name,
+          'email': email,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        fetchPOCs(); // Reload the POC list after editing
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('POC updated successfully')),
+        );
+      } else {
+        throw Exception('Failed to edit POC: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to edit POC: $e')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : pocs.isEmpty
+            ? const Center(child: Text('No POCs found'))
+            : Column(
+                children: [
+                  for (var poc in pocs)
+                    ExpansionPanelWidget1(
+                      id: poc['id'].toString(),
+                      name: poc['name'] ?? 'No Name',
+                      email: poc['email'] ?? 'No Email',
+                      onDelete: () => _deletePOC(poc['id'].toString()),
+                      onEdit: (name, email) => _editPOC(
+                        poc['id'].toString(),
+                        name,
+                        email,
+                      ),
+                    ),
+                ],
+              );
+  }
 }
 
 class ExpansionPanelWidget1 extends StatelessWidget {
-  final String name;
-  final String subject;
-  final String email;
   final String id;
+  final String name;
+  final String email;
   final VoidCallback onDelete;
+  final Function(String, String) onEdit;
 
   const ExpansionPanelWidget1({
     super.key,
-    required this.name,
-    required this.subject,
-    required this.email,
     required this.id,
+    required this.name,
+    required this.email,
     required this.onDelete,
+    required this.onEdit,
   });
 
   @override
@@ -282,25 +311,6 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                   Row(
                     children: [
                       const Text(
-                        'Assigned Subject: ',
-                        style: TextStyle(
-                          fontFamily: 'Poppins-SemiBold',
-                          fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        subject,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      const Text(
                         'Email: ',
                         style: TextStyle(
                           fontFamily: 'Poppins-SemiBold',
@@ -316,12 +326,103 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Text(
+                        'Action(s): ',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-SemiBold',
+                          fontSize: 10,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _showEditDialog(context);
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(Icons.edit, size: 20),
+                            SizedBox(width: 4),
+                            Text('Edit',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins-Regular',
+                                )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: onDelete,
+                        child: const Row(
+                          children: [
+                            Icon(Icons.delete, size: 20),
+                            SizedBox(width: 4),
+                            Text('Delete',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins-Regular',
+                                )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context) {
+    final TextEditingController _nameController =
+        TextEditingController(text: name);
+    final TextEditingController _emailController =
+        TextEditingController(text: email);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Active POC'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                onEdit(
+                  _nameController.text,
+                  _emailController.text,
+                );
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
