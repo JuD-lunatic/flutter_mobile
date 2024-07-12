@@ -15,7 +15,9 @@ class ViewTaskScreen extends StatefulWidget {
 
 class _ViewTaskScreenState extends State<ViewTaskScreen> {
   bool workSubmitted = false;
-  String submissionMessage = 'You have no work uploaded.';
+  String submissionMessage = 'Work Submitted.';
+  TextEditingController linkController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   Future<void> submitWork(String type, String content, String description,
       {File? file}) async {
@@ -42,7 +44,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
         var responseBody = jsonDecode(responseData.body);
         setState(() {
           workSubmitted = true;
-          submissionMessage = responseBody['message'];
+          submissionMessage = responseBody['message'] ?? 'Work Submitted.';
         });
       } else {
         throw Exception('Failed to submit work');
@@ -59,9 +61,6 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        TextEditingController linkController = TextEditingController();
-        TextEditingController descriptionController = TextEditingController();
-
         return AlertDialog(
           contentPadding: const EdgeInsets.all(0),
           content: Padding(
@@ -141,6 +140,10 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                             String description = descriptionController.text;
                             if (link.isNotEmpty) {
                               await submitWork('link', link, description);
+                              setState(() {
+                                submissionMessage = 'Work Submitted.';
+                                workSubmitted = true;
+                              });
                               Navigator.of(context).pop();
                             } else {
                               setState(() {
@@ -350,10 +353,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                 borderRadius: BorderRadius.circular(2),
               ),
               child: ListTile(
-                leading: IconButton(
-                  icon: const Icon(Icons.link),
-                  onPressed: _onInsertLinkClick,
-                ),
+                leading: Icon(Icons.link),
                 title: Text(
                   'Insert Link',
                   style: GoogleFonts.getFont(
@@ -363,6 +363,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                     color: const Color(0xFF000000),
                   ),
                 ),
+                onTap: _onInsertLinkClick,
               ),
             ),
           ],
