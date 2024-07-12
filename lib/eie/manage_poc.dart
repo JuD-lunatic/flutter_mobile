@@ -288,7 +288,7 @@ class ButtonsLayout extends StatelessWidget {
     if (result != null) {
       var file = result.files.single;
 
-      var uri = Uri.parse('http://localhost/college_poc/importPOC.php');
+      var uri = Uri.parse('http://10.0.2.2/college_poc/importPOC.php');
       var request = http.MultipartRequest('POST', uri)
         ..files.add(await http.MultipartFile.fromPath('file', file.path!));
 

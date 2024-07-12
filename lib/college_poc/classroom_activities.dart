@@ -202,7 +202,7 @@ class _ActiveTaskState extends State<ActiveTask> {
 
   Future<List<dynamic>> fetchTasks() async {
     final response =
-        await http.get(Uri.parse('http://localhost/college_poc/get_tasks.php'));
+        await http.get(Uri.parse('http://10.0.2.2/college_poc/get_tasks.php'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -212,7 +212,7 @@ class _ActiveTaskState extends State<ActiveTask> {
   }
 
   Future<void> deleteTask(int taskId) async {
-    final url = Uri.parse('http://localhost/college_poc/delete_task.php');
+    final url = Uri.parse('http://10.0.2.2/college_poc/delete_task.php');
     try {
       final response = await http.post(
         url,
