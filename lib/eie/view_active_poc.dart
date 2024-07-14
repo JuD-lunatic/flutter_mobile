@@ -129,8 +129,7 @@ class CollegePOCList extends StatefulWidget {
 }
 
 class _CollegePOCListState extends State<CollegePOCList> {
-  List<dynamic> pocs =
-      []; // Initialize the list to avoid late initialization error
+  List<dynamic> pocs = [];
   bool isLoading = true;
 
   @override
@@ -141,7 +140,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> fetchPOCs() async {
     try {
-      var url = 'http://10.0.2.2/poc_head/poc/fetch_poc.php';
+      var url = 'http://localhost/poc_head/poc/fetch_poc.php';
       var response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -170,14 +169,14 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> _deletePOC(String id) async {
     try {
-      var url = 'http://10.0.2.2/poc_head/poc/delete_active_poc.php';
+      var url = 'http://localhost/poc_head/poc/delete_active_poc.php';
       var response = await http.post(
         Uri.parse(url),
         body: {'id': id},
       );
 
       if (response.statusCode == 200) {
-        fetchPOCs(); // Reload the POC list after deletion
+        fetchPOCs();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('POC deleted successfully')),
         );
@@ -194,7 +193,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> _editPOC(String id, String name, String email) async {
     try {
-      var url = 'http://10.0.2.2/poc_head/poc/edit_active_poc.php';
+      var url = 'http://localhost/poc_head/poc/edit_active_poc.php';
       var response = await http.post(
         Uri.parse(url),
         body: {
@@ -205,7 +204,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
       );
 
       if (response.statusCode == 200) {
-        fetchPOCs(); // Reload the POC list after editing
+        fetchPOCs();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('POC updated successfully')),
         );

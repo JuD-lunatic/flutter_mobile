@@ -20,13 +20,12 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
       _isLoading = true;
     });
 
-    // Gather student data from form
     final String name = _nameController.text;
     final String number = _numberController.text;
     final int yearLevel = int.tryParse(_yearLevelController.text) ?? 0;
     final String program = _programController.text;
 
-    const url = 'http://10.0.2.2/college_poc/add_student.php';
+    const url = 'http://localhost/college_poc/add_student.php';
     try {
       final response = await http.post(
         Uri.parse(url),

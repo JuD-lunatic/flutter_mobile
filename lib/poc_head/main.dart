@@ -38,13 +38,13 @@ class POCHeadMainScreen extends StatelessWidget {
           ),
         ),
         title: const Text(
-            '  Dashboard',
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.white,
-              fontFamily: 'KronaOne',
-            ),
+          '  Dashboard',
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+            fontFamily: 'KronaOne',
           ),
+        ),
       ),
       body: const BarGraph(),
       bottomNavigationBar: SafeArea(
@@ -92,7 +92,7 @@ class POCHeadMainScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.class_rounded),
                       Text(
-                        'Implementing Subjects',
+                        'Assign Implementing Subjects',
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -186,18 +186,15 @@ class _BarGraphState extends State<BarGraph> {
                   charts.ChartTitle('Month',
                       behaviorPosition: charts.BehaviorPosition.bottom,
                       titleOutsideJustification:
-                      charts.OutsideJustification.middleDrawArea),
+                          charts.OutsideJustification.middleDrawArea),
                   charts.ChartTitle('Completion Rate',
                       behaviorPosition: charts.BehaviorPosition.start,
                       titleOutsideJustification:
-                      charts.OutsideJustification.middleDrawArea),
+                          charts.OutsideJustification.middleDrawArea),
                 ],
                 primaryMeasureAxis: charts.NumericAxisSpec(
                   tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
-                        (num? value) =>
-                    value != null
-                        ? '${value.toInt()}%'
-                        : '',
+                    (num? value) => value != null ? '${value.toInt()}%' : '',
                   ),
                 ),
               ),

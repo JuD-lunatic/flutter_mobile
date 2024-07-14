@@ -27,7 +27,7 @@ class _ReAssigningPageState extends State<ReAssigningPage> {
   Future<void> fetchCollegePOCs() async {
     try {
       final response = await http
-          .get(Uri.parse('http://10.0.2.2/college_poc/display_contacts.php'));
+          .get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
       if (response.statusCode == 200) {
         final List<dynamic> pocsData = json.decode(response.body);
         setState(() {
@@ -60,7 +60,7 @@ class _ReAssigningPageState extends State<ReAssigningPage> {
       print('Sending data: $body'); // Print the data being sent
 
       final response = await http.post(
-        Uri.parse('http://10.0.2.2/college_poc/reassign_subject.php'),
+        Uri.parse('http://localhost/college_poc/reassign_subject.php'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body),
       );

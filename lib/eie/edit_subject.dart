@@ -147,7 +147,7 @@ class _EditSubjectFormState extends State<EditSubjectForm> {
     });
 
     try {
-      var url = 'http://10.0.2.2/poc_head/subjects/update_subject.php';
+      var url = 'http://localhost/poc_head/subjects/update_subject.php';
       var body = {
         'subject_id': widget.subjectId.toString(),
         'subject_name': _subjectNameController.text,

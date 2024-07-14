@@ -243,7 +243,7 @@ class _ViewSubmitGradedScreenState extends State<ViewSubmitGradedScreen> {
                       try {
                         var response = await http.post(
                           Uri.parse(
-                              'http://10.0.2.2/college_poc/delete_submission.php'),
+                              'http://localhost/college_poc/delete_submission.php'),
                           body: {
                             'task_id': widget.submission['task_id'].toString(),
                           },

@@ -30,7 +30,8 @@ class ProfileScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                        icon: const Icon(Icons.arrow_back_ios,
+                            color: Colors.white),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -46,11 +47,11 @@ class ProfileScreen extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.logout, color: Colors.white),
                         onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginFormScreen()),
-                            );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginFormScreen()),
+                          );
                         },
                       ),
                     ],
@@ -99,7 +100,8 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => _buildPasswordUpdateDialog(context),
+                        builder: (BuildContext context) =>
+                            _buildPasswordUpdateDialog(context),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -131,10 +133,16 @@ class ProfileScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buildBottomNavigationItem(context, Icons.dashboard, 'Dashboard', const MyApp()),
-                buildBottomNavigationItem(context, Icons.class_rounded, 'Implementing Subjects', const AssignSubjectScreen()),
-                //buildBottomNavigationItem(context, Icons.featured_play_list, 'Submissions', const SubmissionsScreen()),
-                buildBottomNavigationItem(context, Icons.person, 'Profile', const ProfileScreen(), isActive: true),
+                buildBottomNavigationItem(
+                    context, Icons.dashboard, 'Dashboard', const MyApp()),
+                buildBottomNavigationItem(
+                    context,
+                    Icons.class_rounded,
+                    'Assign Implementing Subjects',
+                    const AssignSubjectScreen()),
+                buildBottomNavigationItem(
+                    context, Icons.person, 'Profile', const ProfileScreen(),
+                    isActive: true),
               ],
             ),
           ),
@@ -164,7 +172,9 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBottomNavigationItem(BuildContext context, IconData icon, String label, Widget targetScreen, {bool isActive = false}) {
+  Widget buildBottomNavigationItem(
+      BuildContext context, IconData icon, String label, Widget targetScreen,
+      {bool isActive = false}) {
     return GestureDetector(
       onTap: () {
         Navigator.pushReplacement(
@@ -204,7 +214,8 @@ class ProfileScreen extends StatelessWidget {
           TextField(
             decoration: InputDecoration(
               labelText: 'Current Password',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             ),
             obscureText: true,
           ),
@@ -212,7 +223,8 @@ class ProfileScreen extends StatelessWidget {
           TextField(
             decoration: InputDecoration(
               labelText: 'New Password',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             ),
             obscureText: true,
           ),
@@ -220,7 +232,8 @@ class ProfileScreen extends StatelessWidget {
           TextField(
             decoration: InputDecoration(
               labelText: 'Verify New Password',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             ),
             obscureText: true,
           ),
@@ -234,7 +247,8 @@ class ProfileScreen extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF0187F1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
           child: Text(
             'Update',

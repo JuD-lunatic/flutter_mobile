@@ -47,7 +47,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
 
   void _onPost() async {
-    final url = Uri.parse('http://10.0.2.2/college_poc/add_task.php');
+    final url = Uri.parse('http://localhost/college_poc/add_task.php');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},

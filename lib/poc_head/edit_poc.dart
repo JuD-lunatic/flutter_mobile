@@ -34,16 +34,15 @@ class EditPOCScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: EditPOCForm(id: id), // Pass the ID to the form
+        child: EditPOCForm(id: id),
       ),
     );
   }
 }
 
 class EditPOCForm extends StatefulWidget {
-  final String id; // Add this line
-  const EditPOCForm({Key? key, required this.id})
-      : super(key: key); // Modify the constructor
+  final String id;
+  const EditPOCForm({Key? key, required this.id}) : super(key: key);
 
   @override
   _EditPOCFormState createState() => _EditPOCFormState();

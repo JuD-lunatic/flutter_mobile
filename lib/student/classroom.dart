@@ -166,7 +166,7 @@ class ActiveTask extends StatelessWidget {
 
   Future<List<dynamic>> fetchTasks() async {
     final response =
-        await http.get(Uri.parse('http://10.0.2.2/college_poc/get_tasks.php'));
+        await http.get(Uri.parse('http://localhost/college_poc/get_tasks.php'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

@@ -24,7 +24,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
 
   fetchSubmissions() async {
     final response = await http
-        .get(Uri.parse('http://10.0.2.2/college_poc/fetch_submissions.php'));
+        .get(Uri.parse('http://localhost/college_poc/fetch_submissions.php'));
 
     if (response.statusCode == 200) {
       setState(() {

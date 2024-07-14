@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'assign_subject.dart';
 import 'profile.dart';
-import 'view_active_poc.dart';
 import 'adding_poc.dart';
 import 'edit_poc.dart';
 import 'implement_subjects.dart';
@@ -28,7 +28,10 @@ class CollegePOCManagementScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => const AssignSubjectScreen()),
+            );
           },
         ),
         title: const Text(
@@ -42,31 +45,13 @@ class CollegePOCManagementScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
+          padding: EdgeInsets.only(top: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 15, left: 200),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ViewActivePOCScreen()),
-                    );
-                  },
-                  child: const Text(
-                    'View Active College POC',
-                    style: TextStyle(
-                      fontFamily: 'Poppins-Regular',
-                    ),
-                  ),
-                ),
-              ),
-              const Align(
+              Align(
                 alignment: Alignment.center,
                 child: SizedBox(
                   width: 370,
@@ -80,7 +65,7 @@ class CollegePOCManagementScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 15, right: 15),
                 child: ButtonsLayout(),
               ),
@@ -246,6 +231,27 @@ class _CollegePOCListState extends State<CollegePOCList> {
     }
   }
 
+  Future<void> _deletePOC(String id) async {
+    final url = 'http://localhost/college_poc/delete_contact.php?id=$id';
+    try {
+      final response = await http.delete(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+      });
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('POC deleted successfully')),
+        );
+        fetchPOCs(); // Refresh the list after deletion
+      } else {
+        throw Exception('Failed to delete POC');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete POC. Error: $e')),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -265,10 +271,17 @@ class _CollegePOCListState extends State<CollegePOCList> {
           email: poc['email'],
           id: poc['id'].toString(),
           onDelete: () {
-            // implement deletion
+            _deletePOC(poc['id'].toString());
           },
           onEdit: () {
-            // implement edit
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditPOCScreen(
+                  id: poc['id'].toString(),
+                ),
+              ),
+            );
           },
         );
       },
@@ -459,16 +472,7 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          // Navigate to EditPOCScreen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditPOCScreen(
-                                      id: id,
-                                    )),
-                          );
-                        },
+                        onTap: onEdit,
                         child: const Row(
                           children: [
                             Icon(Icons.edit, size: 20),
@@ -483,9 +487,7 @@ class ExpansionPanelWidget1 extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
                       GestureDetector(
-                        onTap: () {
-                          // Implement delete action
-                        },
+                        onTap: onDelete,
                         child: const Row(
                           children: [
                             Icon(Icons.delete, size: 20),

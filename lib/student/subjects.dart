@@ -175,8 +175,8 @@ class SubjectsScreen extends StatelessWidget {
   }
 
   Future<List<Map<String, dynamic>>> fetchData() async {
-    final response =
-        await http.get(Uri.parse('http://10.0.2.2/poc_head/poc/fetch_poc.php'));
+    final response = await http
+        .get(Uri.parse('http://localhost/poc_head/poc/fetch_poc.php'));
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       return jsonResponse.map((e) => e as Map<String, dynamic>).toList();

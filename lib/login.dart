@@ -53,7 +53,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2/poc_head/login.php'), // Change this line
+        Uri.parse('http://localhost/poc_head/login.php'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

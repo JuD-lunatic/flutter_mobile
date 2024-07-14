@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import 'package:csv/csv.dart';
+import 'assign_subject.dart';
 import 'profile.dart';
-import '../eie/add_subjects.dart';
+import 'add_subjects.dart';
 import 'edit_subject.dart';
 import 'main.dart';
 import 'manage_poc.dart';
@@ -29,7 +30,9 @@ class ImplementingSubjectsScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AssignSubjectScreen()),
+            );
           },
         ),
         title: const Text(
@@ -208,15 +211,15 @@ class Subject {
   final String id;
   final String subjectName;
   final String subjectCode;
-  final int yearLevel;
-  final String program;
+  final List<String> programs;
+  final List<int> yearLevels;
 
   Subject({
     required this.id,
     required this.subjectName,
     required this.subjectCode,
-    required this.yearLevel,
-    required this.program,
+    required this.programs,
+    required this.yearLevels,
   });
 
   factory Subject.fromJson(Map<String, dynamic> json) {
@@ -224,8 +227,8 @@ class Subject {
       id: json['id'] ?? '',
       subjectName: json['subject_name'] ?? '',
       subjectCode: json['subject_code'] ?? '',
-      yearLevel: int.parse(json['year_level'].toString()),
-      program: json['program'] ?? '',
+      programs: List<String>.from(json['programs'] ?? []),
+      yearLevels: List<int>.from(json['year_levels'] ?? []),
     );
   }
 }
@@ -353,7 +356,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                                     ),
                                   ),
                                   Text(
-                                    subject.yearLevel.toString(),
+                                    subject.yearLevels.join(', '),
                                     style: const TextStyle(
                                       fontFamily: 'Poppins-Regular',
                                       fontSize: 10,
@@ -372,7 +375,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                                     ),
                                   ),
                                   Text(
-                                    subject.program,
+                                    subject.programs.join(', '),
                                     style: const TextStyle(
                                       fontFamily: 'Poppins-Regular',
                                       fontSize: 10,
@@ -398,13 +401,13 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              EditSubjectScreen(
+                                              EditSubjectsScreen(
                                             subjectId:
                                                 int.tryParse(subject.id) ?? 0,
                                             subjectName: subject.subjectName,
                                             subjectCode: subject.subjectCode,
-                                            program: subject.program,
-                                            yearLevel: subject.yearLevel,
+                                            programs: subject.programs,
+                                            yearLevels: subject.yearLevels,
                                           ),
                                         ),
                                       );
@@ -497,12 +500,13 @@ class ButtonsLayout extends StatelessWidget {
                 'id': list[0],
                 'subject_name': list[1],
                 'subject_code': list[2],
-                'program': list[3],
-                'year_level': list[4]
+                'programs': list[3],
+                'year_levels': list[4]
               })
           .toList();
 
-      var response = await http.post(uri, body: {'data': jsonList.toString()});
+      var response =
+          await http.post(uri, body: {'data': json.encode(jsonList)});
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Subjects successfully uploaded')));

@@ -226,7 +226,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
   }
 
   Future<void> _fetchSubjects() async {
-    const url = 'http://10.0.2.2/college_poc/fetch_students.php';
+    const url = 'http://localhost/college_poc/fetch_students.php';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

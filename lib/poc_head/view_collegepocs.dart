@@ -99,7 +99,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> fetchPOCs() async {
     final response = await http
-        .get(Uri.parse('http://10.0.2.2/college_poc/display_contacts.php'));
+        .get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
 
     if (response.statusCode == 200) {
       setState(() {

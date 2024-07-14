@@ -22,7 +22,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
   Future<void> submitWork(String type, String content, String description,
       {File? file}) async {
     try {
-      var uri = Uri.parse('http://10.0.2.2/college_poc/submit_work.php');
+      var uri = Uri.parse('http://localhost/college_poc/submit_work.php');
       var request = http.MultipartRequest('POST', uri);
 
       request.fields['type'] = type;

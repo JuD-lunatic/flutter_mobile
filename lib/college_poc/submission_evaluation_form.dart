@@ -158,7 +158,7 @@ class _EvaluationFormScreenState extends State<EvaluationFormScreen> {
       'cefr_category': cefrData['Category'],
     };
 
-    var url = 'http://10.0.2.2/college_poc/store_data.php';
+    var url = 'http://localhost/college_poc/store_data.php';
     var response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

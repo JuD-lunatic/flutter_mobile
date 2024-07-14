@@ -28,8 +28,8 @@ class _AssigningPageState extends State<AssigningPage> {
 
   Future<void> fetchSubjects() async {
     try {
-      final response = await http
-          .get(Uri.parse('http://10.0.2.2/poc_head/subjects/get_subjects.php'));
+      final response = await http.get(
+          Uri.parse('http://localhost/poc_head/subjects/get_subjects.php'));
       if (response.statusCode == 200) {
         final List<dynamic> subjectsData = json.decode(response.body);
         setState(() {
@@ -52,7 +52,7 @@ class _AssigningPageState extends State<AssigningPage> {
   Future<void> fetchCollegePOCs() async {
     try {
       final response = await http
-          .get(Uri.parse('http://10.0.2.2/college_poc/display_contacts.php'));
+          .get(Uri.parse('http://localhost/college_poc/display_contacts.php'));
       if (response.statusCode == 200) {
         final List<dynamic> pocsData = json.decode(response.body);
         setState(() {
@@ -87,7 +87,7 @@ class _AssigningPageState extends State<AssigningPage> {
       print('Sending data: $body'); // Print the data being sent
 
       final response = await http.post(
-        Uri.parse('http://10.0.2.2/college_poc/assign_subject.php'),
+        Uri.parse('http://localhost/college_poc/assign_subject.php'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body),
       );

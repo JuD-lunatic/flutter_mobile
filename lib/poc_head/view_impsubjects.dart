@@ -133,7 +133,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
   }
 
   Future<void> _fetchSubjects() async {
-    const url = 'http://10.0.2.2/poc_head/subjects/get_subjects.php';
+    const url = 'http://localhost/poc_head/subjects/get_subjects.php';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

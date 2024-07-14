@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'implement_subjects.dart';
+import 'manage_poc.dart';
 import 'reassign.dart';
 import '../eie/data_fetcher.dart';
 import 'main.dart';
 import 'profile.dart';
-import 'view_collegepocs.dart';
-import 'view_impsubjects.dart';
 import 'assign.dart';
 
 class AssignSubjectScreen extends StatelessWidget {
@@ -84,22 +84,20 @@ class AssignSubjectScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const ViewImplementingSubjectPage()),
+                                const ImplementingSubjectsScreen()),
                       );
                     },
                     child: Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 9, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: SizedBox(
-                        width: 200.8,
                         child: Text(
-                          'View Implementing Subjects',
+                          'Manage Implementing Subjects',
                           style: GoogleFonts.getFont(
                             'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 13,
                             letterSpacing: -0.2,
                             color: const Color(0xFF383838),
-                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
@@ -110,18 +108,18 @@ class AssignSubjectScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ViewCollegePocsPage()),
+                            builder: (context) =>
+                                const CollegePOCManagementScreen()),
                       );
                     },
                     child: Text(
-                      'View College POCs',
+                      'Manage College POCs',
                       style: GoogleFonts.getFont(
                         'Poppins',
                         fontWeight: FontWeight.w400,
                         fontSize: 13,
                         letterSpacing: -0.2,
                         color: const Color(0xFF383838),
-                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
@@ -193,7 +191,7 @@ class AssignSubjectScreen extends StatelessWidget {
                           color: Color(0xFF0187F1),
                         ),
                         Text(
-                          'Implementing Subjects',
+                          'Assign Implementing Subjects',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -319,7 +317,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> fetchPOCs() async {
     try {
-      var url = 'http://10.0.2.2/poc_head/poc/fetch_poc.php';
+      var url = 'http://localhost/poc_head/poc/fetch_poc.php';
       var response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -348,7 +346,7 @@ class _CollegePOCListState extends State<CollegePOCList> {
 
   Future<void> _deletePOC(String? id) async {
     try {
-      var url = 'http://10.0.2.2/poc_head/poc/delete_poc.php';
+      var url = 'http://localhost/poc_head/poc/delete_poc.php';
       var response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},

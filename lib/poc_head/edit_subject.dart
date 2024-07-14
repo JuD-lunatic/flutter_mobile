@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class AddSubjectsScreen extends StatelessWidget {
-  const AddSubjectsScreen({super.key});
+class EditSubjectsScreen extends StatelessWidget {
+  final int subjectId;
+  final String subjectName;
+  final String subjectCode;
+  final List<String> programs;
+  final List<int> yearLevels;
+
+  const EditSubjectsScreen({
+    Key? key,
+    required this.subjectId,
+    required this.subjectName,
+    required this.subjectCode,
+    required this.programs,
+    required this.yearLevels,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +37,7 @@ class AddSubjectsScreen extends StatelessWidget {
           },
         ),
         title: const Text(
-          'Implement\nSubjects',
+          'Edit\nSubjects',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 24,
@@ -34,35 +47,63 @@ class AddSubjectsScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(10),
-          child: RegistrationForm(),
+          padding: const EdgeInsets.all(10),
+          child: EditForm(
+            subjectId: subjectId,
+            subjectName: subjectName,
+            subjectCode: subjectCode,
+            programs: programs,
+            yearLevels: yearLevels,
+          ),
         ),
       ),
     );
   }
 }
 
-class RegistrationForm extends StatefulWidget {
-  const RegistrationForm({super.key});
+class EditForm extends StatefulWidget {
+  final int subjectId;
+  final String subjectName;
+  final String subjectCode;
+  final List<String> programs;
+  final List<int> yearLevels;
+
+  const EditForm({
+    Key? key,
+    required this.subjectId,
+    required this.subjectName,
+    required this.subjectCode,
+    required this.programs,
+    required this.yearLevels,
+  }) : super(key: key);
 
   @override
-  _RegistrationFormState createState() => _RegistrationFormState();
+  _EditFormState createState() => _EditFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> {
-  final TextEditingController _subjectNameController = TextEditingController();
-  final TextEditingController _subjectCodeController = TextEditingController();
+class _EditFormState extends State<EditForm> {
+  late TextEditingController _subjectNameController;
+  late TextEditingController _subjectCodeController;
   final Map<String, String> _programMap = {
     'Bachelor of Science in Computer Science': 'BSCS',
     'Bachelor of Science in Information Technology': 'BSIT',
     'Associate in Computer Technology': 'ACT',
     'Bachelor of Library and Information Science': 'BLIS',
   };
-  final List<String> _selectedPrograms = [];
-  final List<int> _selectedYearLevels = [];
+  late List<String> _selectedPrograms;
+  late List<int> _selectedYearLevels;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _subjectNameController = TextEditingController(text: widget.subjectName);
+    _subjectCodeController = TextEditingController(text: widget.subjectCode);
+    _selectedPrograms = List.from(widget.programs);
+    _selectedYearLevels = List.from(widget.yearLevels);
+  }
 
   Future<void> _submitForm() async {
     setState(() {
@@ -70,8 +111,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
     });
 
     try {
-      var url = 'http://localhost/poc_head/subjects/subjects.php';
+      var url = 'http://localhost/poc_head/subjects/update_subject.php';
       var body = {
+        'subject_id': widget.subjectId.toString(),
         'subject_name': _subjectNameController.text,
         'subject_code': _subjectCodeController.text,
         'programs':
@@ -92,13 +134,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Data sent successfully')),
+          const SnackBar(content: Text('Data updated successfully')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content:
-                  Text('Failed to send data. Error: ${response.reasonPhrase}')),
+              content: Text(
+                  'Failed to update data. Error: ${response.reasonPhrase}')),
         );
       }
     } catch (e) {
@@ -106,7 +148,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send data. Error: $e')),
+        SnackBar(content: Text('Failed to update data. Error: $e')),
       );
     }
   }
@@ -248,11 +290,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _submitForm,
               icon: const Icon(
-                Icons.add,
+                Icons.update,
                 color: Colors.white,
               ),
               label: const Text(
-                'Add',
+                'Update',
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
