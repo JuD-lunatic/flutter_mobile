@@ -417,9 +417,3 @@ class AddTaskButton extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(const MaterialApp(
-    home: ClassroomActivityScreen(),
-  ));
-}

@@ -474,9 +474,3 @@ class ButtonsLayout extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(const MaterialApp(
-    home: ClassroomStudentManagementScreen(),
-  ));
-}
