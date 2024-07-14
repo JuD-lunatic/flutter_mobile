@@ -39,12 +39,38 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
               children: [
                 const Padding(
                   padding:
-                      EdgeInsets.only(bottom: 90, left: 0, right: 150, top: 0),
+                      EdgeInsets.only(bottom: 5, left: 30, right: 15, top: 0),
                   child: Text(
-                    'APPLICATION\nDEVELOPMENT',
+                    'APPLICATION DEVELOPMENT',
                     style: TextStyle(
                       fontFamily: 'Montserrat-Bold',
                       fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF0187F1),
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding:
+                      EdgeInsets.only(bottom: 5, left: 0, right: 275, top: 0),
+                  child: Text(
+                    'BIT321k',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat-Bold',
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding:
+                      EdgeInsets.only(bottom: 60, left: 0, right: 160, top: 0),
+                  child: Text(
+                    'Danny Boy Casimero',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat-Bold',
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF0187F1),
                     ),
