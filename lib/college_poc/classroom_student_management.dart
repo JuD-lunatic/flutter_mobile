@@ -320,6 +320,36 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
     }
   }
 
+  Future<void> deleteStudent(String studentId) async {
+    final response = await http.post(
+      Uri.parse('http://localhost/college_poc/delete_student.php'),
+      body: {
+        'studentId': studentId,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      if (responseData['success']) {
+        // Remove the student from the list
+        setState(() {
+          _subjects.removeWhere((subject) => subject.id == studentId);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Student deleted successfully')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${responseData['message']}')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete student')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
@@ -425,7 +455,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    // Action for delete student
+                                    deleteStudent(subject.id);
                                   },
                                   child: const Row(
                                     children: [
@@ -447,12 +477,6 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                               ],
                             ),
                           ],
-                        ),
-                        const Divider(
-                          thickness: 1.0,
-                          color: Colors.black,
-                          indent: 30.0,
-                          endIndent: 30.0,
                         ),
                       ],
                     ),
