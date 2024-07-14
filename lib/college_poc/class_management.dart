@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'classroom_activities.dart';
-import 'classroom_student_management.dart';
 import 'main.dart';
 import 'profile.dart';
 import 'dart:convert';
@@ -22,11 +21,17 @@ class ClassScreen extends StatelessWidget {
             bottomRight: Radius.circular(30),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+        leading: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ClassScreen()),
+              );
+            },
+          ),
         ),
         title: const Text(
           '  Classroom\nManagement',
@@ -44,29 +49,19 @@ class ClassScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ClassroomActivityScreen(),
-                    ),
-                  );
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: fetchData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  } else if (snapshot.hasData) {
+                    List<Map<String, dynamic>> data = snapshot.data!;
+                    return StackedContainers(data: data);
+                  }
+                  return const Text("No data");
                 },
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: fetchData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    } else if (snapshot.hasData) {
-                      List<Map<String, dynamic>> data = snapshot.data!;
-                      return StackedContainers(data: data);
-                    }
-                    return const Text("No data");
-                  },
-                ),
               ),
             ),
           ],
@@ -205,7 +200,7 @@ class ContainerItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ClassroomStudentManagementScreen(
+            builder: (context) => ClassroomActivityScreen(
               classId: data['id'],
             ),
           ),

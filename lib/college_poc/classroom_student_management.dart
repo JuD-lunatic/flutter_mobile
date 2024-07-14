@@ -12,6 +12,7 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Navigated to Student Management with class ID: $classId");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(330.0),
@@ -23,7 +24,10 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ClassScreen()),
+                );
               },
             ),
           ),
@@ -34,107 +38,125 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 5, left: 30, right: 15, top: 0),
-                  child: Text(
-                    'APPLICATION DEVELOPMENT',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat-Bold',
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0187F1),
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 5, left: 0, right: 275, top: 0),
-                  child: Text(
-                    'BIT321k',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat-Bold',
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 60, left: 0, right: 160, top: 0),
-                  child: Text(
-                    'Danny Boy Casimero',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat-Bold',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0187F1),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ClassroomActivityScreen()),
-                        );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 8, 0, 15),
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.transparent,
-                        ),
-                        child: const Text(
-                          'Activities',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-SemiBold',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17,
-                            color: Color(0xFF6B6D76),
+            child: FutureBuilder<Map<String, dynamic>>(
+              future: fetchClassDetails(classId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(
+                      child: Text('No class details available'));
+                } else {
+                  var data = snapshot.data!;
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 5, left: 0, right: 200, top: 0),
+                        child: Text(
+                          data['subject'] ?? 'No Subject',
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat-Bold',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF0187F1),
                           ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 8, 0, 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xFF0187F1),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x40000000),
-                              offset: Offset(0, 4),
-                              blurRadius: 2,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 5, left: 0, right: 350, top: 0),
+                        child: Text(
+                          data['subject_code'] ?? 'No Code',
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat-Bold',
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 60, left: 0, right: 300, top: 0),
+                        child: Text(
+                          data['name'] ?? 'No Name',
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat-Bold',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF0187F1),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print(
+                                  "Navigating to Activities with class ID: $classId");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ClassroomActivityScreen(classId: classId),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(0, 8, 0, 15),
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.transparent,
+                              ),
+                              child: const Text(
+                                'Activities',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins-SemiBold',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 17,
+                                  color: Color(0xFF6B6D76),
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.fromLTRB(20, 9, 20, 9),
-                        child: const Text(
-                          '     Student\nManagement',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-SemiBold',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 13,
-                            color: Color(0xFFFFFFFF),
                           ),
-                        ),
+                          GestureDetector(
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(0, 8, 0, 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color(0xFF0187F1),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x40000000),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              padding: const EdgeInsets.fromLTRB(20, 9, 20, 9),
+                              child: const Text(
+                                '     Student\nManagement',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins-SemiBold',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 13,
+                                  color: Color(0xFFFFFFFF),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  );
+                }
+              },
             ),
           ),
         ),
@@ -166,6 +188,16 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<Map<String, dynamic>> fetchClassDetails(String classId) async {
+    final response = await http.get(Uri.parse(
+        'http://localhost/college_poc/fetch_class_details.php?classId=$classId'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load class details');
+    }
   }
 }
 
