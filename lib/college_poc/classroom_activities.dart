@@ -121,15 +121,15 @@ class ClassroomActivityScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const ClassroomStudentManagementScreen(),
-                          ),
-                        );
-                      },
+                      //onTap: () {
+                      //  Navigator.push(
+                      //    context,
+                      //    MaterialPageRoute(
+                      //      builder: (context) =>
+                      //          const ClassroomStudentManagementScreen(),
+                      //    ),
+                      //  );
+                      //},
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(0, 8, 0, 10),
                         padding: const EdgeInsets.all(8.0),

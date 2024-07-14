@@ -6,7 +6,9 @@ import 'class_management.dart';
 import 'classroom_activities.dart';
 
 class ClassroomStudentManagementScreen extends StatelessWidget {
-  const ClassroomStudentManagementScreen({super.key});
+  final String classId;
+
+  const ClassroomStudentManagementScreen({super.key, required this.classId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +23,7 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ClassScreen()),
-                );
+                Navigator.pop(context);
               },
             ),
           ),
@@ -82,14 +81,6 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ClassroomStudentManagementScreen()),
-                        );
-                      },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(0, 8, 0, 15),
                         decoration: BoxDecoration(
@@ -122,9 +113,9 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 15.0),
+          padding: const EdgeInsets.only(top: 15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -134,13 +125,13 @@ class ClassroomStudentManagementScreen extends StatelessWidget {
                   width: 370,
                   child: ContainerManager(
                     children: [
-                      ExpansionPanelWidget(),
+                      ExpansionPanelWidget(classId: classId),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Padding(
+              const SizedBox(height: 20),
+              const Padding(
                 padding: EdgeInsets.only(right: 20.0),
                 child: ButtonsLayout(),
               ),
@@ -209,7 +200,8 @@ class Subject {
 }
 
 class ExpansionPanelWidget extends StatefulWidget {
-  const ExpansionPanelWidget({super.key});
+  final String classId;
+  const ExpansionPanelWidget({super.key, required this.classId});
 
   @override
   _ExpansionPanelWidgetState createState() => _ExpansionPanelWidgetState();
@@ -226,7 +218,8 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
   }
 
   Future<void> _fetchSubjects() async {
-    const url = 'http://localhost/college_poc/fetch_students.php';
+    final url =
+        'http://localhost/college_poc/fetch_students.php?classId=${widget.classId}';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

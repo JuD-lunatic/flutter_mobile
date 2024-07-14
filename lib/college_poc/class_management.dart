@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'classroom_activities.dart';
+import 'classroom_student_management.dart';
 import 'main.dart';
 import 'profile.dart';
 import 'dart:convert';
@@ -197,83 +198,95 @@ class ContainerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Outer Elevated Container
-            Container(
-              width: 360.2,
-              height: 250,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
+    return GestureDetector(
+      onTap: () {
+        print(
+            "Selected class ID: ${data['id']}"); // Print the class ID to the terminal
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ClassroomStudentManagementScreen(
+              classId: data['id'],
             ),
-            // Image with Text Overlay
-            Positioned(
-              bottom: 50,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      'icons/bg-mobile-1.png',
-                      width: 360,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    ),
-                    Positioned(
-                      left: 20,
-                      top: 20,
-                      child: Text(
-                        data['subject'] ?? 'No Subject',
-                        style: const TextStyle(
-                          fontFamily: 'Poppins-SemiBold',
-                          fontSize: 20,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      top: 45,
-                      child: Text(
-                        data['subject_code'] ?? 'No Code',
-                        style: const TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      top: 60,
-                      child: Text(
-                        data['name'] ?? 'No Name',
-                        style: const TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 15,
-                          color: Colors.blue,
-                        ),
-                      ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 360.2,
+                height: 250,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 50,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        'icons/bg-mobile-1.png',
+                        width: 360,
+                        height: 200,
+                        fit: BoxFit.fill,
+                      ),
+                      Positioned(
+                        left: 20,
+                        top: 20,
+                        child: Text(
+                          data['subject'] ?? 'No Subject',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins-SemiBold',
+                            fontSize: 20,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 20,
+                        top: 45,
+                        child: Text(
+                          data['subject_code'] ?? 'No Code',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 20,
+                        top: 60,
+                        child: Text(
+                          data['name'] ?? 'No Name',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 15,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
