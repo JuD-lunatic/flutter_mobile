@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import 'package:csv/csv.dart';
-import 'assign_subject.dart';
-import 'profile.dart';
 import 'add_subjects.dart';
 import 'edit_subject.dart';
 import 'main.dart';
-import 'manage_poc.dart';
+import 'profile.dart';
 
 class ImplementingSubjectsScreen extends StatelessWidget {
   const ImplementingSubjectsScreen({super.key});
@@ -26,14 +24,6 @@ class ImplementingSubjectsScreen extends StatelessWidget {
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AssignSubjectScreen()),
-            );
-          },
         ),
         title: const Text(
           'Implementing\nSubjects',
@@ -72,105 +62,83 @@ class ImplementingSubjectsScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: SizedBox(
-          height: 80.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyApp()),
-                  );
-                },
-                child: const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.dashboard,
-                    ),
-                    Text(
-                      'Dashboard',
-                      style: TextStyle(
-                        fontSize: 14,
+      bottomNavigationBar: SafeArea(
+        child: BottomAppBar(
+          color: Colors.white,
+          child: SizedBox(
+            height: 80.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MyApp()),
+                    );
+                  },
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.dashboard,
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Dashboard',
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ImplementingSubjectsScreen(),
-                    ),
-                  );
-                },
-                child: const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.subject,
-                      color: Color(0xFF0187F1),
-                    ),
-                    Text(
-                      'Implement Subjects',
-                      style: TextStyle(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ImplementingSubjectsScreen()),
+                    );
+                  },
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.manage_accounts,
                         color: Color(0xFF0187F1),
-                        fontSize: 14,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CollegePOCManagementScreen(),
-                    ),
-                  );
-                },
-                child: const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.manage_accounts_sharp),
-                    Text(
-                      'Manage POC',
-                      style: TextStyle(
-                        fontSize: 14,
+                      Text(
+                        'Manage Subjects',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF0187F1),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()),
-                  );
-                },
-                child: const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.person),
-                    Text(
-                      'Profile',
-                      style: TextStyle(
-                        fontSize: 14,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileScreen()),
+                    );
+                  },
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.person),
+                      Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -258,6 +226,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
         final List<dynamic> data = json.decode(response.body);
         setState(() {
           _subjects = data.map((json) => Subject.fromJson(json)).toList();
+          _subjects = _subjects.where((subject) => subject.programs.contains('Library and Information Science')).toList();
           _isLoading = false;
         });
       } else {
@@ -358,7 +327,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                                   fontFamily: 'Poppins-Regular',
                                 ),
                                 'Course Code: ${subject.subjectCode}'
-                                ),
+                              ),
                             ],
                           ),
                           trailing: Row(
@@ -399,6 +368,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
           );
   }
 }
+
 
 class ButtonsLayout extends StatelessWidget {
   const ButtonsLayout({super.key});

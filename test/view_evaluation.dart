@@ -1,259 +1,188 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main/student/view_evaluation.dart';
 
-class EvaluationPage extends StatefulWidget {
-  const EvaluationPage({super.key});
 
-  @override
-  _EvaluationPage createState() => _EvaluationPage();
+void main() {
+  runApp(const MyApp());
 }
 
-class _EvaluationPage extends State<EvaluationPage> {
-  bool isExpanded = false;
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEDECEC),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFEDECEC),
-        toolbarHeight: 100,
-        shape: const ContinuousRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black54),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.fromLTRB(18, 0, 18, 21),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Interaction Styles',
-                    style: GoogleFonts.getFont(
-                        'Poppins',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      color: const Color(0xFF0187F1),
-                    ),
-                  ),
-                ),
-              ),
-              ExpansionTile(
-                collapsedBackgroundColor: Colors.white,
-                title: Text(
-                  'EPGF Average',
-                  style: GoogleFonts.getFont(
-                    'Poppins',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF383838),
-                  ),
-                ),
-                trailing: Text(
-                  '2.14',
-                  style: GoogleFonts.getFont(
-                    'Poppins',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue,
-                  ),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Pronunciation',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              '2.25',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Grammar',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              '1.67',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Fluency',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              '2.5',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        const Divider(color: Colors.black),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'CEFR',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              'B2',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            Text(
-                              'Category',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              'Upper Intermediate',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'EPGF Descriptor',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              'Proficient',
-                              style: GoogleFonts.getFont(
-                                'Poppins',
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white,
-                      spreadRadius: 3,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  title: Text(
-                    'Feedback',
-                    style: GoogleFonts.getFont(
-                      'Poppins',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF383838),
-                    ),
-                  ),
-                  trailing: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
-                  onTap: () {
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  },
-                ),
-              ),
-              if (isExpanded)
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Good Job!',
-                    style: GoogleFonts.getFont(
-                      'Poppins',
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
+    return MaterialApp(
+      title: 'Evaluation Form',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
     );
+  }
+}
+
+class Subject {
+  final String id;
+  final String subjectName;
+  final String subjectCode;
+  final List<String> programs;
+  final List<int> yearLevels;
+
+  Subject({
+    required this.id,
+    required this.subjectName,
+    required this.subjectCode,
+    required this.programs,
+    required this.yearLevels,
+  });
+
+  factory Subject.fromJson(Map<String, dynamic> json) {
+    return Subject(
+      id: json['id'] ?? '',
+      subjectName: json['subject_name'] ?? '',
+      subjectCode: json['subject_code'] ?? '',
+      programs: List<String>.from(json['programs'] ?? []),
+      yearLevels: List<int>.from(json['year_levels'] ?? []),
+    );
+  }
+}
+
+class ExpansionPanelWidget extends StatefulWidget {
+  const ExpansionPanelWidget({super.key});
+
+  @override
+  _ExpansionPanelWidgetState createState() => _ExpansionPanelWidgetState();
+}
+
+class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
+  List<Subject> _subjects = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchSubjects();
+  }
+
+  Future<void> _fetchSubjects() async {
+    const url = 'http://localhost/poc_head/subjects/get_subjects.php';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          _subjects = data.map((json) => Subject.fromJson(json)).toList();
+          _isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load subjects, status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load data. Error: $e')),
+      );
+    }
+  }
+
+  Future<void> _deleteSubject(String id) async {
+    final url = 'http://localhost/poc_head/subjects/delete_subject.php?id=$id';
+    try {
+      final response = await http.delete(Uri.parse(url));
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Subject deleted successfully')),
+        );
+        _fetchSubjects();
+      } else {
+        throw Exception('Failed to delete subject');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete subject. Error: $e')),
+      );
+    }
+  }
+
+  Map<int, List<Subject>> _groupSubjectsByYearLevel(List<Subject> subjects) {
+    Map<int, List<Subject>> groupedSubjects = {};
+    for (var subject in subjects) {
+      for (var program in subject.programs) {
+        if (program == "Information Technology") {
+          for (var yearLevel in subject.yearLevels) {
+            if (!groupedSubjects.containsKey(yearLevel)) {
+              groupedSubjects[yearLevel] = [];
+            }
+            groupedSubjects[yearLevel]!.add(subject);
+          }
+        }
+      }
+    }
+    return groupedSubjects;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final groupedSubjects = _groupSubjectsByYearLevel(_subjects);
+
+    return _isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: groupedSubjects.keys.length,
+              itemBuilder: (context, index) {
+                final yearLevel = groupedSubjects.keys.elementAt(index);
+                final subjects = groupedSubjects[yearLevel]!;
+
+                return ExpansionTile(
+                  title: Text(
+                    'Year Level $yearLevel',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins-SemiBold',
+                    ),
+                  ),
+                  children: subjects.map((subject) {
+                    return ListTile(
+                      title: Text(
+                        subject.subjectName,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins-SemiBold',
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Course Code: ${subject.subjectCode}'),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              _deleteSubject(subject.id);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          );
   }
 }
