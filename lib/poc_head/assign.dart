@@ -26,28 +26,29 @@ class _AssigningPageState extends State<AssigningPage> {
     fetchCollegePOCs();
   }
 
-  Future<void> fetchSubjects() async {
-    try {
-      final response = await http.get(
-          Uri.parse('http://localhost/poc_head/subjects/get_subjects.php'));
-      if (response.statusCode == 200) {
-        final List<dynamic> subjectsData = json.decode(response.body);
-        setState(() {
-          _subjectsList = subjectsData
-              .map((item) => item['subject_name'].toString())
-              .toList();
-          isLoadingSubjects = false;
-        });
-      } else {
-        throw Exception('Failed to load subjects');
-      }
-    } catch (e) {
-      print(e);
+Future<void> fetchSubjects() async {
+  try {
+    final response = await http.get(
+        Uri.parse('http://localhost/poc_head/subjects/get_subjects_from_implementing.php')); // Update URL to the new PHP script
+    if (response.statusCode == 200) {
+      final List<dynamic> subjectsData = json.decode(response.body);
       setState(() {
+        _subjectsList = subjectsData
+            .map((item) => item['subject_name'].toString())
+            .toList();
         isLoadingSubjects = false;
       });
+    } else {
+      throw Exception('Failed to load subjects');
     }
+  } catch (e) {
+    print(e);
+    setState(() {
+      isLoadingSubjects = false;
+    });
   }
+}
+
 
   Future<void> fetchCollegePOCs() async {
     try {
@@ -84,7 +85,7 @@ class _AssigningPageState extends State<AssigningPage> {
         'email': _selectedCollegePOCEmail!,
         'subject_name': _assignedSubject!,
       };
-      print('Sending data: $body'); // Print the data being sent
+      print('Sending data: $body');
 
       final response = await http.post(
         Uri.parse('http://localhost/college_poc/assign_subject.php'),

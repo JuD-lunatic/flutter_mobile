@@ -226,6 +226,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
         final List<dynamic> data = json.decode(response.body);
         setState(() {
           _subjects = data.map((json) => Subject.fromJson(json)).toList();
+          // Filter subjects to include only those with "Computer Science"
           _subjects = _subjects.where((subject) => subject.programs.contains('Computer Science')).toList();
           _isLoading = false;
         });
@@ -257,6 +258,34 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to delete subject. Error: $e')),
+      );
+    }
+  }
+
+  Future<void> _selectSubject(Subject subject) async {
+    const url = 'http://localhost/poc_head/subjects/add_pending_subject.php';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'subject_id': subject.id,
+          'subject_name': subject.subjectName,
+          'subject_code': subject.subjectCode,
+          'program': 'Computer Science',
+          'year_level': subject.yearLevels.isNotEmpty ? subject.yearLevels.first : 0,
+        }),
+      );
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Subject selected successfully')),
+        );
+      } else {
+        throw Exception('Failed to select subject');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to select subject. Error: $e')),
       );
     }
   }
@@ -327,7 +356,7 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                                   fontFamily: 'Poppins-Regular',
                                 ),
                                 'Course Code: ${subject.subjectCode}'
-                                ),
+                              ),
                             ],
                           ),
                           trailing: Row(
@@ -354,6 +383,12 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   _deleteSubject(subject.id);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.check),
+                                onPressed: () {
+                                  _selectSubject(subject);
                                 },
                               ),
                             ],

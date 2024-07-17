@@ -9,6 +9,7 @@ import '../eie/data_fetcher.dart';
 import 'main.dart';
 import 'profile.dart';
 import 'assign.dart';
+import 'pending_subject.dart';
 
 class AssignSubjectScreen extends StatelessWidget {
   const AssignSubjectScreen({super.key});
@@ -92,6 +93,31 @@ class AssignSubjectScreen extends StatelessWidget {
                       child: SizedBox(
                         child: Text(
                           'Manage Implementing Subjects',
+                          style: GoogleFonts.getFont(
+                            'Poppins',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                            letterSpacing: -0.2,
+                            color: const Color(0xFF383838),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PendingSubjectsScreen()),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: SizedBox(
+                        child: Text(
+                          'Implementing Subject Requests',
                           style: GoogleFonts.getFont(
                             'Poppins',
                             fontWeight: FontWeight.w400,
@@ -240,7 +266,7 @@ class ActionButtons extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const SizedBox(width: 20), // Add some spacing between the buttons
+        const SizedBox(width: 20),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -306,7 +332,7 @@ class CollegePOCList extends StatefulWidget {
 
 class _CollegePOCListState extends State<CollegePOCList> {
   List<dynamic> pocs =
-      []; // Initialize the list to avoid late initialization error
+      [];
   bool isLoading = true;
 
   @override

@@ -3,6 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'poc_head/main.dart';
 import 'dart:convert';
+import 'program_head_act/main.dart';
+import 'program_head_blis/main.dart';
+import 'program_head_bscs/main.dart';
+import 'program_head_bsit/main.dart';
 import 'student/main.dart';
 import 'eie/main.dart';
 import 'college_poc/main.dart';
@@ -29,6 +33,10 @@ class LoginApp extends StatelessWidget {
         '/college_poc': (context) => const CollegePOCMainScreen(),
         '/poc_head': (context) => const POCHeadMainScreen(),
         '/eie': (context) => const EIEMainScreen(),
+        '/program_head_act': (context) => const ACTProgramHeadScreen(),
+        '/program_head_blis': (context) => const BLISProgramHeadScreen(),
+        '/program_head_bscs': (context) => const BSCSProgramHeadScreen(),
+        '/program_head_bsit': (context) => const BSITProgramHeadScreen(),
       },
     );
   }
@@ -75,6 +83,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
             Navigator.pushNamed(context, '/poc_head');
           } else if (role == 'eie') {
             Navigator.pushNamed(context, '/eie');
+          } else if (role == 'program_head_act') {
+            Navigator.pushNamed(context, '/program_head_act');
+          } else if (role == 'program_head_blis') {
+            Navigator.pushNamed(context, '/program_head_blis');
+          } else if (role == 'program_head_bscs') {
+            Navigator.pushNamed(context, '/program_head_bscs');
+          } else if (role == 'program_head_bsit') {
+            Navigator.pushNamed(context, '/program_head_bsit');
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Invalid role: $role')),

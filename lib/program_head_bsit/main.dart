@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: POCHeadMainScreen(),
+      home: BSITProgramHeadScreen(),
     );
   }
 }
 
-class POCHeadMainScreen extends StatelessWidget {
-  const POCHeadMainScreen({super.key});
+class BSITProgramHeadScreen extends StatelessWidget {
+  const BSITProgramHeadScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
