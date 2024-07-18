@@ -29,7 +29,7 @@ class _AssigningPageState extends State<AssigningPage> {
 Future<void> fetchSubjects() async {
   try {
     final response = await http.get(
-        Uri.parse('http://localhost/poc_head/subjects/get_subjects_from_implementing.php')); // Update URL to the new PHP script
+        Uri.parse('http://localhost/poc_head/subjects/get_subjects_from_implementing.php'));
     if (response.statusCode == 200) {
       final List<dynamic> subjectsData = json.decode(response.body);
       setState(() {

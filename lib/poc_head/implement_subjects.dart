@@ -227,8 +227,8 @@ class Subject {
       id: json['id'] ?? '',
       subjectName: json['subject_name'] ?? '',
       subjectCode: json['subject_code'] ?? '',
-      programs: List<String>.from(json['programs'] ?? []),
-      yearLevels: List<int>.from(json['year_levels'] ?? []),
+      programs: List<String>.from(json['program'] ?? []), // assuming the key is 'program'
+      yearLevels: List<int>.from(json['year_level'] ?? []), // assuming the key is 'year_level'
     );
   }
 }
@@ -250,28 +250,33 @@ class _ExpansionPanelWidgetState extends State<ExpansionPanelWidget> {
     _fetchSubjects();
   }
 
-  Future<void> _fetchSubjects() async {
-    const url = 'http://localhost/poc_head/subjects/get_subjects.php';
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        setState(() {
-          _subjects = data.map((json) => Subject.fromJson(json)).toList();
-          _isLoading = false;
-        });
-      } else {
-        throw Exception('Failed to load subjects, status code: ${response.statusCode}');
-      }
-    } catch (e) {
+Future<void> _fetchSubjects() async {
+  const url = 'http://localhost/poc_head/subjects/fetch_implementing_subject.php';
+  try {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      print('Response body: ${response.body}'); // Debug statement
+      print('Data fetched: $data'); // Debug statement
       setState(() {
+        _subjects = data.map((json) => Subject.fromJson(json)).toList();
+        print('Parsed subjects: $_subjects'); // Debug statement
         _isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load data. Error: $e')),
-      );
+    } else {
+      throw Exception('Failed to load subjects, status code: ${response.statusCode}');
     }
+  } catch (e) {
+    print('Error fetching data: $e'); // Debug statement
+    setState(() {
+      _isLoading = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to load data. Error: $e')),
+    );
   }
+}
+
 
   Future<void> _deleteSubject(String id) async {
     final url = 'http://localhost/poc_head/subjects/delete_subject.php?id=$id';
