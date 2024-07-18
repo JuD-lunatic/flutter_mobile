@@ -227,8 +227,8 @@ class Subject {
       id: json['id'] ?? '',
       subjectName: json['subject_name'] ?? '',
       subjectCode: json['subject_code'] ?? '',
-      programs: List<String>.from(json['program'] ?? []), // assuming the key is 'program'
-      yearLevels: List<int>.from(json['year_level'] ?? []), // assuming the key is 'year_level'
+      programs: List<String>.from(json['program'] ?? []), 
+      yearLevels: List<int>.from(json['year_level'] ?? []), 
     );
   }
 }
@@ -256,18 +256,18 @@ Future<void> _fetchSubjects() async {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      print('Response body: ${response.body}'); // Debug statement
-      print('Data fetched: $data'); // Debug statement
+      print('Response body: ${response.body}');
+      print('Data fetched: $data');
       setState(() {
         _subjects = data.map((json) => Subject.fromJson(json)).toList();
-        print('Parsed subjects: $_subjects'); // Debug statement
+        print('Parsed subjects: $_subjects');
         _isLoading = false;
       });
     } else {
       throw Exception('Failed to load subjects, status code: ${response.statusCode}');
     }
   } catch (e) {
-    print('Error fetching data: $e'); // Debug statement
+    print('Error fetching data: $e');
     setState(() {
       _isLoading = false;
     });
@@ -277,18 +277,24 @@ Future<void> _fetchSubjects() async {
   }
 }
 
-
   Future<void> _deleteSubject(String id) async {
     final url = 'http://localhost/poc_head/subjects/delete_subject.php?id=$id';
     try {
       final response = await http.delete(Uri.parse(url));
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Subject deleted successfully')),
-        );
-        _fetchSubjects();
+        final responseBody = json.decode(response.body);
+        if (responseBody['message'] == 'Data deleted successfully') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Subject deleted successfully')),
+          );
+          _fetchSubjects();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to delete subject: ${responseBody['message']}')),
+          );
+        }
       } else {
-        throw Exception('Failed to delete subject');
+        throw Exception('Failed to delete subject. Status code: ${response.statusCode}');
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -296,6 +302,32 @@ Future<void> _fetchSubjects() async {
       );
     }
   }
+
+  Future<void> updateSubject(Subject subject) async {
+  const url = 'http://localhost/poc_head/subjects/update_subject.php';
+  try {
+    final response = await http.patch(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'subject_id': subject.id,
+        'subject_name': subject.subjectName,
+        'subject_code': subject.subjectCode,
+        'program': subject.programs,
+        'year_level': subject.yearLevels,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Subject updated successfully');
+    } else {
+      print('Failed to update subject: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error updating subject: $e');
+  }
+}
+
 
   Map<int, Map<String, List<Subject>>> _groupSubjectsByYearLevelAndProgram(List<Subject> subjects) {
     Map<int, Map<String, List<Subject>>> groupedSubjects = {};
@@ -369,23 +401,28 @@ Future<void> _fetchSubjects() async {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EditSubjectsScreen(
-                                        subjectId: int.tryParse(subject.id) ?? 0,
-                                        subjectName: subject.subjectName,
-                                        subjectCode: subject.subjectCode,
-                                        programs: subject.programs,
-                                        yearLevels: subject.yearLevels,
-                                      ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditSubjectsScreen(
+                                      subjectId: int.tryParse(subject.id) ?? 0,
+                                      subjectName: subject.subjectName,
+                                      subjectCode: subject.subjectCode,
+                                      programs: subject.programs,
+                                      yearLevels: subject.yearLevels,
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                ).then((updatedSubject) {
+                                  if (updatedSubject != null) {
+                                    updateSubject(updatedSubject);
+                                  }
+                                });
+                              },
+                            ),
+
                               IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {

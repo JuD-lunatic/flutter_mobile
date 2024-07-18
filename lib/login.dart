@@ -127,9 +127,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
           ),
           Positioned(
             top: 100,
-            left: 50,
+            left: 160,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(30.0),
               child: SingleChildScrollView(
                 child: Row(
                   children: <Widget>[

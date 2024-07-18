@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EditSubjectsScreen extends StatelessWidget {
   final int subjectId;
@@ -87,10 +88,10 @@ class _EditFormState extends State<EditForm> {
   late TextEditingController _subjectNameController;
   late TextEditingController _subjectCodeController;
   final Map<String, String> _programMap = {
-    'Bachelor of Science in Computer Science': 'BSCS',
-    'Bachelor of Science in Information Technology': 'BSIT',
-    'Associate in Computer Technology': 'ACT',
-    'Bachelor of Library and Information Science': 'BLIS',
+    'Bachelor of Science in Computer Science': 'Computer Science',
+    'Bachelor of Science in Information Technology': 'Information Technology',
+    'Associate in Computer Technology': 'Associate in Computer Technology',
+    'Bachelor of Library and Information Science': 'Library and Information Science',
   };
   late List<String> _selectedPrograms;
   late List<int> _selectedYearLevels;
@@ -112,18 +113,21 @@ class _EditFormState extends State<EditForm> {
 
     try {
       var url = 'http://localhost/poc_head/subjects/update_subject.php';
-      var body = {
+      var body = json.encode({
         'subject_id': widget.subjectId.toString(),
         'subject_name': _subjectNameController.text,
         'subject_code': _subjectCodeController.text,
-        'programs':
-            _selectedPrograms.map((program) => _programMap[program]).join(','),
-        'year_levels': _selectedYearLevels.join(','),
-      };
+        'program': _selectedPrograms.map((program) => _programMap[program]).toList(),
+        'year_level': _selectedYearLevels,
+      });
 
       print('Sending data: $body');
 
-      var response = await http.post(Uri.parse(url), body: body);
+      var response = await http.patch(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
@@ -136,6 +140,7 @@ class _EditFormState extends State<EditForm> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data updated successfully')),
         );
+        Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
